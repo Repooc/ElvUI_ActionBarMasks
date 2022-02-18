@@ -4,7 +4,7 @@
 ## Version: 1.00
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
-## X-Curse-Project-ID:
-## X-Wago-ID:
+## X-Curse-Project-ID: 581040
+## X-Wago-ID: e56nY2N9
 
 Core.lua
