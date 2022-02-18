@@ -1,4 +1,4 @@
-# Round ActionBar Buttons (ElvUI Plugin)
+# Actionbar Masks for ElvUI (ElvUI Plugin)
 
 **Do you wish you could make your ElvUI actionbar buttons round without needing Masque?**  
 

@@ -1,7 +1,7 @@
 ﻿## Interface: 90105
 ## Interface-BCC: 20503
 ## Interface-Classic: 11402
-## Title: |cFFFFFFFFRound|r|cFF16C3F2Actionbar|r Buttons
+## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
 ## Version: 1.00
 ## RequiredDeps: ElvUI
