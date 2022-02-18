@@ -1,0 +1,12 @@
+﻿## Interface: 90105
+## Interface-BCC: 20503
+## Interface-Classic: 11402
+## Title: |cFFFFFFFFRound|r|cFF16C3F2Actionbar|r Buttons
+## Author: Repooc
+## Version: 1.00
+## RequiredDeps: ElvUI
+## DefaultState: Enabled
+## X-Curse-Project-ID:
+## X-Wago-ID:
+
+Core.lua

@@ -1,0 +1,6 @@
+package-as: ElvUI_RoundActionBarButtons
+manual-changelog:
+    filename: CHANGELOG.txt
+    markup-type: bbcode
+move-folders:
+    ElvUI_RoundActionBarButtons/ElvUI_RoundActionBarButtons: ElvUI_RoundActionBarButtons
