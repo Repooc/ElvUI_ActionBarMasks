@@ -12,5 +12,6 @@ P.rab = {
 		procSpeed = 1,
 		procPulse = true,
 		procEnable = true,
+		procSpin = true,
 	}
 }
