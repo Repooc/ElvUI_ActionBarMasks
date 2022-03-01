@@ -318,7 +318,6 @@ local function ControlProc(button, autoCastEnabled)
 		button.procFrame.spinner:Stop()
 		button.procFrame.pulse:Stop()
 	end
-	-- end
 end
 
 function RAB:UpdatePet(event, unit)
