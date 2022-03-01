@@ -82,7 +82,6 @@ function RAB:UpdateOptions()
 			if button.mask then
 				button.mask:SetTexture(texturePath..db.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 			end
-
 			if button.border then
 				-- button.border:SetTexture(texturePath..db.shape..'\\'..db.borderStyle)
 				button.border:SetTexture(path)
@@ -94,12 +93,11 @@ function RAB:UpdateOptions()
 			if cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga')
 			end
-			if button.procFrame and button.procFrame.procRing then
-				button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
-				button.procFrame.procRing:SetVertexColor(db.procColor.r, db.procColor.g, db.procColor.b, 1)
-			end
-
 			if button.procFrame then
+				if button.procFrame.procRing then
+					button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
+					button.procFrame.procRing:SetVertexColor(db.procColor.r, db.procColor.g, db.procColor.b, 1)
+				end
 				if button.procFrame.procMask then
 					if db.procStyle == 'solid' then
 						button.procFrame.procMask:SetTexture(texturePath..db.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
@@ -114,11 +112,13 @@ function RAB:UpdateOptions()
 				if button.procFrame.rotate then
 					button.procFrame.rotate:SetDuration(120)
 					button.procFrame.rotate:SetDegrees(21600)
+					-- button.procFrame.rotate:SetDegrees(db.proc.reverse and -(360) or 360)
+					-- button.procFrame.rotate:SetDegrees(db.procReverse and -(21600) or 21600)
 				end
 				if button.procFrame.pulse then
-					if db.procPulse and not button.procFrame.pulse:IsPlaying() then
+					if db.procEnable and  db.procPulse and not button.procFrame.pulse:IsPlaying() then
 						button.procFrame.pulse:Play()
-					elseif not db.procPulse and button.procFrame.pulse:IsPlaying() then
+					elseif not db.procEnable or button.procFrame.pulse:IsPlaying() and not db.procPulse  then
 						button.procFrame.pulse:Stop()
 					end
 				end
@@ -132,9 +132,6 @@ local function SetupMask(button)
 
 	local name = button:GetName()
 	local normal = _G[name..'NormalTexture']
-	-- local cooldown = _G[name..'Cooldown'] -- Done in RAB:UpdateOptions()
-	-- local db = E.db.rab.general
-	-- local path = RAB:GetValidBorder() -- Done in RAB:UpdateOptions()
 
 	if not button.rabHooked then
 		button.Center:Hide()
@@ -170,8 +167,6 @@ local function SetupMask(button)
 		button.border:SetAllPoints(button)
 	end
 	-- button.border:SetTexture(texturePath..db.shape..'\\'..db.borderStyle)
-	-- button.border:SetTexture(path) -- Done in RAB:UpdateOptions()
-	-- button.border:SetVertexColor(db.borderColor.r, db.borderColor.g, db.borderColor.b, 1) -- Done in RAB:UpdateOptions()
 
 	--==============--
 	--= Add Shadow =--
@@ -180,14 +175,6 @@ local function SetupMask(button)
 		button.shadow = button:CreateTexture()
 		button.shadow:SetAllPoints(button)
 	end
-	-- button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga') -- Done in RAB:UpdateOptions()
-
-	--==========================--
-	--= Cooldown Swipe Texture =--
-	--==========================--
-	-- if cooldown:GetDrawSwipe() then
-	-- 	cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga') -- Done in RAB:UpdateOptions()
-	-- end
 
 	--==================--
 	--= Add Proc Frame =--
@@ -210,8 +197,6 @@ local function SetupMask(button)
 		button.procFrame.procRing:SetDrawLayer('BORDER')
 	end
 	button.procFrame.procRing:SetSize(button:GetSize())
-	-- button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite') -- Done in RAB:UpdateOptions()
-	-- button.procFrame.procRing:SetVertexColor(db.procColor.r, db.procColor.g, db.procColor.b, 1) -- Done in RAB:UpdateOptions()
 
 	--================--
 	--= Add ProcMask =--
@@ -223,12 +208,6 @@ local function SetupMask(button)
 		-- button.procFrame.procMask:SetPoint('CENTER', button.procFrame.procRing)
 		-- button.procFrame.procMask:SetSize(80, 80)
 	end
-	-- if db.procStyle == 'solid' then -- Done in RAB:UpdateOptions()
-	-- 	button.procFrame.procMask:SetTexture(texturePath..db.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE') -- Done in RAB:UpdateOptions()
-	-- else -- Done in RAB:UpdateOptions()
-	-- 	button.procFrame.procMask:SetTexture(texturePath..'repooctest.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE') -- Done in RAB:UpdateOptions()
-	-- end -- Done in RAB:UpdateOptions()
-	-- button.procFrame.procRing:AddMaskTexture(button.procFrame.procMask) -- Done in RAB:UpdateOptions()
 	--button.procFrame:AddMaskTexture(button.procFrame.procMask)
 
 	--==========================--
@@ -237,7 +216,6 @@ local function SetupMask(button)
 	if not button.procFrame.spinner then
 		button.procFrame.spinner = button.procFrame:CreateAnimationGroup()
 	end
-	-- button.procFrame.spinner:SetLooping('REPEAT') --maybe an option... idk yet -- Done in RAB:UpdateOptions()
 
 	--===================--
 	--= Add Rotate Anim =--
@@ -248,11 +226,6 @@ local function SetupMask(button)
 		button.procFrame.rotate:SetTarget(button.procFrame.procMask)
 		button.procFrame.rotate:SetStartDelay(0)
 	end
-	-- button.procFrame.rotate:SetDuration(120) -- Done in RAB:UpdateOptions()
-	-- button.procFrame.rotate:SetDegrees(db.proc.reverse and -(360) or 360)
-	-- button.procFrame.rotate:SetDegrees(db.procReverse and -(21600) or 21600)
-	-- button.procFrame.rotate:SetDegrees(21600) -- Done in RAB:UpdateOptions()
-
 	--button.procFrame.rotate:SetSmoothing('OUT')
 	--button.procFrame.rotate:SetOrigin('CENTER', 0, 0)
 
@@ -309,8 +282,10 @@ local function ControlProc(button, autoCastEnabled)
 
 	if db.procEnable and autoCastEnabled then
 		button.procFrame:Show()
-		button.procFrame.spinner:Play(db.procReverse)
-		if db.procPulse and not button.procFrame.pulse:IsPlaying() then
+		if db.procSpin then
+			button.procFrame.spinner:Play(db.procReverse)
+		end
+		if db.procPulse then
 			button.procFrame.pulse:Play()
 		end
 	else
