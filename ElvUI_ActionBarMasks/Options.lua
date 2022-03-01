@@ -39,7 +39,8 @@ local function configTable()
 	Proc.inline = true
 	Proc.args.procEnable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	Proc.args.procPulse = ACH:Toggle(L["Pulse"], nil, 1)
-	Proc.args.procColor = ACH:Color(L["Color"], desc, 2, true, width, function(info)
+	Proc.args.procSpin = ACH:Toggle(L["Spin"], nil, 2)
+	Proc.args.procColor = ACH:Color(L["Color"], desc, 3, true, width, function(info)
 		local c = E.db.rab.general[info[#info]]
 		local d = P.rab.general[info[#info]]
 		return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
@@ -48,7 +49,7 @@ local function configTable()
 		c.r, c.g, c.b, c.a = r, g, b, a
 		RAB:UpdateOptions()
 	end)
-	Proc.args.procStyle = ACH:Select(L["Style"], nil, 3, {pixel = 'Pixel', solid = 'Solid'})
+	Proc.args.procStyle = ACH:Select(L["Style"], nil, 4, {pixel = 'Pixel', solid = 'Solid'})
 end
 
 tinsert(RAB.Configs, configTable)

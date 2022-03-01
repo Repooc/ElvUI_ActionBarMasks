@@ -122,6 +122,13 @@ function RAB:UpdateOptions()
 						button.procFrame.pulse:Stop()
 					end
 				end
+				if button.procFrame.pulse then
+					if db.procEnable and db.procSpin and not button.procFrame.spinner:IsPlaying() then
+						button.procFrame.spinner:Play(db.procReverse)
+					elseif not db.procEnable or button.procFrame.spinner:IsPlaying() and not db.procSpin then
+						button.procFrame.spinner:Stop()
+					end
+				end
 			end
 		end
 	end
@@ -287,10 +294,12 @@ local function ControlProc(button, autoCastEnabled)
 		if db.procPulse then
 			button.procFrame.pulse:Play()
 		end
+		button.procActive = true
 	else
 		button.procFrame:Hide()
 		button.procFrame.spinner:Stop()
 		button.procFrame.pulse:Stop()
+		button.procActive = false
 	end
 end
 
