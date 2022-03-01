@@ -204,9 +204,8 @@ local function SetupMask(button)
 	if not button.procFrame.procMask then
 		button.procFrame.procMask = button.procFrame:CreateMaskTexture()
 		button.procFrame.procMask:SetParent(button.procFrame)
-		button.procFrame.procMask:SetAllPoints(button.procFrame.procRing)
-		-- button.procFrame.procMask:SetPoint('CENTER', button.procFrame.procRing)
-		-- button.procFrame.procMask:SetSize(80, 80)
+		button.procFrame.procMask:SetPoint('CENTER', button.procFrame.procRing)
+		button.procFrame.procMask:SetSize(80, 80)
 	end
 	--button.procFrame:AddMaskTexture(button.procFrame.procMask)
 
