@@ -1,3 +1,5 @@
-v1.02 2/20/2022
+v1.03 3/1/2022
 
-- Fixed messed up rename
+- Added Hexagon and Pentagon Shapes
+- Added Multiple borders for all shapes (mainly circle ones for now)
+- Added Options for border and border color as well as a replacement for a proc since the ElvUI square one doesnt exactly fit, may add option to use elvui's instead though if people want the square one back
