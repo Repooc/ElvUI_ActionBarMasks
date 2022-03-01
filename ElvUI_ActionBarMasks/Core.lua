@@ -4,10 +4,10 @@ local LCG = E.Libs.CustomGlow
 local AB = E.ActionBars
 local AddOnName, Engine = ...
 
-local RAB = E:NewModule(AddOnName, 'AceHook-3.0')
+local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
 _G[AddOnName] = Engine
 
-RAB.Configs = {}
+ABM.Configs = {}
 
 local texturePath = 'Interface\\Addons\\ElvUI_ActionBarMasks\\Textures\\'
 
@@ -52,13 +52,13 @@ local DefaultMasks = {
 	}
 }
 
-function RAB:GetMaskDB()
+function ABM:GetMaskDB()
 	return DefaultMasks
 end
 
-function RAB:GetValidBorder()
+function ABM:GetValidBorder()
 	local db = E.db.rab.general
-	local maskDB = RAB:GetMaskDB()
+	local maskDB = ABM:GetMaskDB()
 	local border = maskDB[db.shape].borders[db.borderStyle] and db.borderStyle or 'border100'
 	local path = texturePath..db.shape..'\\'..border
 
@@ -66,15 +66,15 @@ function RAB:GetValidBorder()
 end
 
 local function GetOptions()
-	for _, func in pairs(RAB.Configs) do
+	for _, func in pairs(ABM.Configs) do
 		func()
 	end
 end
 
-function RAB:UpdateOptions()
+function ABM:UpdateOptions()
 	local db = E.db.rab.general
 	local cooldown
-	local path = RAB:GetValidBorder()
+	local path = ABM:GetValidBorder()
 	for button in pairs(AB.handledbuttons) do
 		if button then
 			cooldown = _G[button:GetName()..'Cooldown']
@@ -107,7 +107,7 @@ function RAB:UpdateOptions()
 					button.procFrame.procRing:AddMaskTexture(button.procFrame.procMask)
 				end
 				if button.procFrame.spinner then
-					button.procFrame.spinner:SetLooping('REPEAT') --maybe an option... idk yet -- Done in RAB:UpdateOptions()
+					button.procFrame.spinner:SetLooping('REPEAT') --maybe an option... idk yet
 				end
 				if button.procFrame.rotate then
 					button.procFrame.rotate:SetDuration(120)
@@ -156,7 +156,6 @@ local function SetupMask(button)
 		button.mask = button:CreateMaskTexture(nil, 'Background', nil, 4)
 		button.mask:SetAllPoints(button)
 	end
-	-- button.mask:SetTexture(texturePath..db.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE') -- Done in RAB:UpdateOptions()
 
 	if button.mask and not button.rabHooked then
 		if button.checked then button.checked:AddMaskTexture(button.mask) end
@@ -259,7 +258,7 @@ local function SetupMask(button)
 	button.rabHooked = true
 end
 
-function RAB:PositionAndSizeBar(barName)
+function ABM:PositionAndSizeBar(barName)
 	local bar = AB['handledBars'][barName]
 	if not bar then return end
 	local button
@@ -269,7 +268,7 @@ function RAB:PositionAndSizeBar(barName)
 	end
 end
 
-function RAB:PositionAndSizeBarPet()
+function ABM:PositionAndSizeBarPet()
 	local button
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		button = _G['PetActionButton'..i]
@@ -303,7 +302,7 @@ local function ControlProc(button, autoCastEnabled)
 	end
 end
 
-function RAB:UpdatePet(event, unit)
+function ABM:UpdatePet(event, unit)
 	if (event == 'UNIT_FLAGS' or event == 'UNIT_PET') and unit ~= 'pet' then return end
 	for i = 1, NUM_PET_ACTION_SLOTS, 1 do
 		local button = _G['PetActionButton'..i]
@@ -312,24 +311,24 @@ function RAB:UpdatePet(event, unit)
 	end
 end
 
-function RAB:Initialize()
+function ABM:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions)
 	if not AB.Initialized or not E.db.rab.general.enable then return end
 
-	hooksecurefunc(E, 'UpdateDB', RAB.UpdateOptions)
-	hooksecurefunc(AB, 'PositionAndSizeBar', RAB.PositionAndSizeBar)
+	hooksecurefunc(E, 'UpdateDB', ABM.UpdateOptions)
+	hooksecurefunc(AB, 'PositionAndSizeBar', ABM.PositionAndSizeBar)
 	for i = 1, 10 do
-		RAB:PositionAndSizeBar('bar'..i)
+		ABM:PositionAndSizeBar('bar'..i)
 	end
 
-	RAB:PositionAndSizeBarPet()
-	hooksecurefunc(AB, 'PositionAndSizeBarPet', RAB.PositionAndSizeBarPet)
+	ABM:PositionAndSizeBarPet()
+	hooksecurefunc(AB, 'PositionAndSizeBarPet', ABM.PositionAndSizeBarPet)
 
-	RAB:UpdateOptions()
+	ABM:UpdateOptions()
 
 	hooksecurefunc(LCG, 'ShowOverlayGlow', function(button) ControlProc(button, true) end)
 	hooksecurefunc(LCG, 'HideOverlayGlow', function(button) ControlProc(button, false) end)
-	hooksecurefunc(AB, 'UpdatePet', RAB.UpdatePet)
+	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
 end
 
-E.Libs.EP:HookInitialize(RAB, RAB.Initialize)
+E.Libs.EP:HookInitialize(ABM, ABM.Initialize)
