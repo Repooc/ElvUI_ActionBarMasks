@@ -10,7 +10,7 @@ local function GetBorderValues()
 end
 
 local function configTable()
-	local rab = ACH:Group('|cFF16C3F2Actionbar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
+	local rab = ACH:Group('|cFF16C3F2ActionBar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
 	E.Options.args.rab = rab
 
 	local General = ACH:Group(L["Mask & Proc Settings"], nil, 0, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end)
