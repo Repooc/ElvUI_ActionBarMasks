@@ -19,13 +19,13 @@ jobs:
         uses: actions/checkout@v1
         with:
           fetch-depth: 100
-      - name: Retail
+      - name: Release Job
         uses: BigWigsMods/packager@master
-      - name: Classic
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g classic
-      - name: TBC
-        uses: BigWigsMods/packager@master
-        with:
-          args: -g bcc
+      # - name: Classic
+      #   uses: BigWigsMods/packager@master
+      #   with:
+      #     args: -g classic
+      # - name: TBC
+      #   uses: BigWigsMods/packager@master
+      #   with:
+      #     args: -g bcc
