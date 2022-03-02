@@ -6,6 +6,11 @@ local S = E:GetModule('Skins')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.05 3/2/2022',
+		'• fixed proc look when actionbar setting for keep aspect ratio was disabled and button width and height were not equal',
+		'• add option to stop the proc from spinning',
+		'• add stance bar to supported bar to mask',
+	' ',
 	'v1.04 3/1/2022',
 		'• fixed missing image',
 	' ',

@@ -1,4 +1,4 @@
-v1.05 alpha
+v1.05 3/2/2022
 
 - fixed proc look when actionbar setting for keep aspect ratio was disabled and button width and height were not equal
 - add option to stop the proc from spinning
