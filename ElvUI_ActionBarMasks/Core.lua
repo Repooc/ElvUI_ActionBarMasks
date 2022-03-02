@@ -191,6 +191,7 @@ local function SetupMask(button)
 		button.procFrame:SetParent(button)
 		button.procFrame:SetPoint('Center', button)
 		button.procFrame:Hide()
+		if button.HotKey then button.HotKey:SetParent(button.procFrame) end
 	end
 	button.procFrame:SetSize(button:GetSize())
 
