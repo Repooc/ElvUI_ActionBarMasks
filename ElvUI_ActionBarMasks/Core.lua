@@ -258,6 +258,30 @@ local function SetupMask(button)
 	end
 
 	button.rabHooked = true
+
+	-- Some Icon Texture Manipulation to try to make it look a bit better...
+	if not button:GetParent() == 'ElvUI_StanceBar' or not button.icon then return end
+
+	local left, right, top, bottom = unpack({-0.05, 1.05, -0.1, 1.1})
+	local changeRatio = button.db and not button.db.keepSizeRatio
+	if changeRatio then
+		local width, height = button:GetSize()
+		local ratio = width / height
+		if ratio > 1 then
+			local trimAmount = (1 - (1 / ratio)) / 2
+			top = top + trimAmount
+			bottom = bottom - trimAmount
+		else
+			local trimAmount = (1 - ratio) / 2
+			left = left + trimAmount
+			right = right - trimAmount
+		end
+	end
+
+	-- always when masque is off, otherwise only when keepSizeRatio is off
+	if not button.useMasque or changeRatio then
+		button.icon:SetTexCoord(left, right, top, bottom)
+	end
 end
 
 function ABM:PositionAndSizeBar(barName)
