@@ -7,6 +7,7 @@ local AddOnName, Engine = ...
 local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
 _G[AddOnName] = Engine
 
+ABM.Version = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
 ABM.Configs = {}
 
 local texturePath = 'Interface\\Addons\\ElvUI_ActionBarMasks\\Textures\\'
@@ -329,6 +330,10 @@ function ABM:Initialize()
 	hooksecurefunc(LCG, 'ShowOverlayGlow', function(button) ControlProc(button, true) end)
 	hooksecurefunc(LCG, 'HideOverlayGlow', function(button) ControlProc(button, false) end)
 	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
+
+	if not ABMDB then
+		ABMDB = {}
+	end
 end
 
 E.Libs.EP:HookInitialize(ABM, ABM.Initialize)

@@ -6,9 +6,11 @@
 ## Version: 1.04
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
+## SavedVariables: ABMDB
 ## X-Curse-Project-ID: 581040
 ## X-Wago-ID: e56nY2N9
 
 Profile.lua
 Core.lua
+Modules\Load_Modules.xml
 Options.lua
