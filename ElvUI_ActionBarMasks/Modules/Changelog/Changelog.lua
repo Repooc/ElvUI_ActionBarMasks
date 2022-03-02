@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 
 local format, gsub, find = string.format, string.gsub, string.find
 
-local ChangeLogData = {
+local ChangelogTBL = {
 	'v1.04 3/1/2022',
 		'• fixed missing image',
 	' ',
@@ -19,7 +19,6 @@ local ChangeLogData = {
 	' ',
 	'v1.01 2/18/2022',
 		'• Renamed project',
-		'• https://google.com',
 	' ',
 	'v1.00 2/17/2022',
 		'• Initial Release',
@@ -50,7 +49,7 @@ local function ModifiedString(string)
 end
 
 local function GetChangeLogInfo(i)
-	for line, info in pairs(ChangeLogData) do
+	for line, info in pairs(ChangelogTBL) do
 		if line == i then
 			return info
 		end
@@ -100,11 +99,11 @@ function module:CreateChangelog()
 	content:EnableMouse(true)
 
 	local offset = 4
-	for i = 1, #ChangeLogData do
+	for i = 1, #ChangelogTBL do
 		local button = CreateFrame('Frame', 'Button'..i, content)
 		button:SetWidth(frame:GetWidth())
 		button:Point('TOPLEFT', content, 'TOPLEFT', 5, -offset)
-		if i <= #ChangeLogData then
+		if i <= #ChangelogTBL then
 			local string, isURL = ModifiedString(GetChangeLogInfo(i))
 
 			button.Text = button:CreateFontString(nil, 'OVERLAY')

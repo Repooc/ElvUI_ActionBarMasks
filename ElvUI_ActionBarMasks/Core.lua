@@ -279,6 +279,15 @@ function ABM:PositionAndSizeBarPet()
 	end
 end
 
+function ABM:PositionAndSizeBarShapeShift()
+	local button
+	for i = 1, NUM_STANCE_SLOTS do
+		button = _G['ElvUI_StanceBarButton'..i]
+		if not button.rabHooked then _G[button:GetName()..'Shine']:SetAlpha(0) end
+		SetupMask(button)
+	end
+end
+
 local function ControlProc(button, autoCastEnabled)
 	if not button or (button and not button.procFrame) then return end
 	local db = E.db.rab.general
@@ -325,6 +334,9 @@ function ABM:Initialize()
 
 	ABM:PositionAndSizeBarPet()
 	hooksecurefunc(AB, 'PositionAndSizeBarPet', ABM.PositionAndSizeBarPet)
+
+	ABM:PositionAndSizeBarShapeShift()
+	hooksecurefunc(AB, 'PositionAndSizeBarShapeShift', ABM.PositionAndSizeBarShapeShift)
 
 	ABM:UpdateOptions()
 
