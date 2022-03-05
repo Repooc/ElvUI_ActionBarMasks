@@ -261,7 +261,7 @@ local function SetupMask(button)
 	button.rabHooked = true
 
 	-- Some Icon Texture Manipulation to try to make it look a bit better...
-	if not button:GetParent() == 'ElvUI_StanceBar' or not button.icon then return end
+	if button:GetParent() ~= 'ElvUI_StanceBar' or not button.icon then return end
 
 	local left, right, top, bottom = unpack({-0.05, 1.05, -0.1, 1.1})
 	local changeRatio = button.db and not button.db.keepSizeRatio

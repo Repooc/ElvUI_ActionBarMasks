@@ -1,6 +1,3 @@
-v1.06 3/5/2022
+v1.07 3/5/2022
 
-- make the buttons match more to how elvui buttons appear with the "Show Empty Buttons" option enabled
-- trim stance bar icon when "Keep Size Ratio" is disabled
-- added a Help/Information panel
-- added speed option to adjust the speed of the spinning
+- fix trimming of icon on the actionbars/petbar
