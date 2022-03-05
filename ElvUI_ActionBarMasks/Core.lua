@@ -88,7 +88,6 @@ function ABM:UpdateOptions()
 				button.mask:SetTexture(texturePath..db.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 			end
 			if button.border then
-				-- button.border:SetTexture(texturePath..db.shape..'\\'..db.borderStyle)
 				button.border:SetTexture(path)
 				button.border:SetVertexColor(db.borderColor.r, db.borderColor.g, db.borderColor.b, 1)
 			end
@@ -116,9 +115,6 @@ function ABM:UpdateOptions()
 				end
 				if button.procFrame.rotate then
 					button.procFrame.rotate:SetDuration(db.procSpeed)
-					-- button.procFrame.rotate:SetDegrees(360)
-					-- button.procFrame.rotate:SetDegrees(db.proc.reverse and -(360) or 360)
-					-- button.procFrame.rotate:SetDegrees(db.procReverse and -(21600) or 21600)
 				end
 				if button.procFrame.pulse then
 					if db.procEnable and  db.procPulse and not button.procFrame.pulse:IsPlaying() then
