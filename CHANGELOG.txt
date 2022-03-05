@@ -1,5 +1,6 @@
-v1.05 3/2/2022
+v1.06 3/5/2022
 
-- fixed proc look when actionbar setting for keep aspect ratio was disabled and button width and height were not equal
-- add option to stop the proc from spinning
-- add stance bar to supported bar to mask
+- make the buttons match more to how elvui buttons appear with the "Show Empty Buttons" option enabled
+- trim stance bar icon when "Keep Size Ratio" is disabled
+- added a Help/Information panel
+- added speed option to adjust the speed of the spinning
