@@ -142,6 +142,7 @@ function module:CountDown()
 		ABM_Changelog.close:Enable()
 		ABM_Changelog.close:SetText(CLOSE)
 	else
+		ABM_Changelog.close:Disable()
 		ABM_Changelog.close:SetText(CLOSE..format(' (%s)', module.time))
 	end
 end
