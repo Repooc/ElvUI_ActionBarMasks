@@ -8,11 +8,13 @@ local format, gsub, find = string.format, string.gsub, string.find
 local ChangelogTBL = {
 	'v1.07 3/5/2022',
 		'• fix trimming of icon on the actionbars/petbar',
+	' ',
 	'v1.06 3/5/2022',
 		'• make the buttons match more to how elvui buttons appear with the "Show Empty Buttons" option enabled',
 		'• trim stance bar icon when "Keep Size Ratio" is disabled',
 		'• added a Help/Information panel',
 		'• added speed option to adjust the speed of the spinning',
+	' ',
 	'v1.05 3/2/2022',
 		'• fixed proc look when actionbar setting for keep aspect ratio was disabled and button width and height were not equal',
 		'• add option to stop the proc from spinning',
