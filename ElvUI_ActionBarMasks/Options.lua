@@ -39,14 +39,14 @@ local function configTable()
 	local rab = ACH:Group('|cFF16C3F2ActionBar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
 	E.Options.args.rab = rab
 
-	local General = ACH:Group(L["Mask & Proc Settings"], nil, 0, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end)
+	local General = ACH:Group(L["Mask & Glow Options"], nil, 0, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end)
 	rab.args.general = General
 	General.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, function(info, value) E.db.rab.general[info[#info]] = value E.ShowPopup = true end, not AB.Initialized or false)
 	General.args.spacer1 = ACH:Spacer(1, 'full')
 	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon'}, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	General.args.spacer2 = ACH:Spacer(3, 'full')
 
-	local Border = ACH:Group(L["Border Settings"], nil, 10, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable end)
+	local Border = ACH:Group(L["Border Options"], nil, 10, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	General.args.Border = Border
 	Border.inline = true
 	Border.args.borderColor = ACH:Color(L["Color"], desc, 1, true, width, function(info)
@@ -60,7 +60,7 @@ local function configTable()
 	end)
 	Border.args.borderStyle = ACH:Select(L["Style"], nil, 2, GetBorderValues, nil, nil, function() local _, border = ABM:GetValidBorder() return border end)
 
-	local Proc = ACH:Group(L["Proc Settings"], nil, 15, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable or not E.db.rab.general.procEnable end)
+	local Proc = ACH:Group(L["Glow"], nil, 15, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable or not E.db.rab.general.procEnable end)
 	General.args.proc = Proc
 	Proc.inline = true
 	Proc.args.procEnable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
@@ -104,7 +104,7 @@ local function configTable()
 	Coding.inline = true
 	Coding.args.string = ACH:Description(DEVELOPER_STRING, 1, 'medium')
 
-	local Testers = ACH:Group(L["Help Test Dev Versions"], nil, 7)
+	local Testers = ACH:Group(L["Help Testing Development Versions"], nil, 7)
 	Help.args.testers = Testers
 	Testers.inline = true
 	Testers.args.string = ACH:Description(TESTER_STRING, 1, 'medium')

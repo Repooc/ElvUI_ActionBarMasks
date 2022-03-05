@@ -1,8 +1,8 @@
 local E = unpack(ElvUI)
 local ABM = E:GetModule('ElvUI_ActionBarMasks')
-local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local S = E:GetModule('Skins')
 
+local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
@@ -91,7 +91,7 @@ function module:CreateChangelog()
 	close:SetText(CLOSE)
 	close:Size(80, 20)
 	close:SetScript('OnClick', function()
-		ABMDB['Version'] = ABM.Version
+		_G.ABMDB['Version'] = ABM.Version
 		frame:Hide()
 	end)
 	S:HandleButton(close)

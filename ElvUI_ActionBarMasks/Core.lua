@@ -373,7 +373,7 @@ function ABM:Initialize()
 	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
 
 	if not ABMDB then
-		ABMDB = {}
+		_G.ABMDB = {}
 	end
 end
 
