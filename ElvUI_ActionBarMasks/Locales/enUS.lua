@@ -11,6 +11,7 @@ L["Mask Shape"] = true
 L["Pulse"] = true
 L["Spin"] = true
 L["Textures/Coding"] = true
+L["The lower the setting, the faster.  This value represents the time it takes to rotate 360 degrees."] = true
 L["Wago Page"] = true
 
 -- Do not translate as they are in ElvUI Locales already

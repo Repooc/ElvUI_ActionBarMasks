@@ -115,8 +115,8 @@ function ABM:UpdateOptions()
 					button.procFrame.spinner:SetLooping('REPEAT') --maybe an option... idk yet
 				end
 				if button.procFrame.rotate then
-					button.procFrame.rotate:SetDuration(120)
-					button.procFrame.rotate:SetDegrees(21600)
+					button.procFrame.rotate:SetDuration(db.procSpeed)
+					-- button.procFrame.rotate:SetDegrees(360)
 					-- button.procFrame.rotate:SetDegrees(db.proc.reverse and -(360) or 360)
 					-- button.procFrame.rotate:SetDegrees(db.procReverse and -(21600) or 21600)
 				end
@@ -236,6 +236,7 @@ local function SetupMask(button)
 		button.procFrame.rotate:SetOrder(1)
 		button.procFrame.rotate:SetTarget(button.procFrame.procMask)
 		button.procFrame.rotate:SetStartDelay(0)
+		button.procFrame.rotate:SetDegrees(360)
 	end
 	--button.procFrame.rotate:SetSmoothing('OUT')
 	--button.procFrame.rotate:SetOrigin('CENTER', 0, 0)

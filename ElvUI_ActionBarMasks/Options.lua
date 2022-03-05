@@ -66,7 +66,8 @@ local function configTable()
 	Proc.args.procEnable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	Proc.args.procPulse = ACH:Toggle(L["Pulse"], nil, 1)
 	Proc.args.procSpin = ACH:Toggle(L["Spin"], nil, 2)
-	Proc.args.procColor = ACH:Color(L["Color"], desc, 3, true, width, function(info)
+	Proc.args.spacer1 = ACH:Spacer(3, 'full')
+	Proc.args.procColor = ACH:Color(L["Color"], desc, 4, true, width, function(info)
 		local c = E.db.rab.general[info[#info]]
 		local d = P.rab.general[info[#info]]
 		return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
@@ -75,7 +76,9 @@ local function configTable()
 		c.r, c.g, c.b, c.a = r, g, b, a
 		ABM:UpdateOptions()
 	end)
-	Proc.args.procStyle = ACH:Select(L["Style"], nil, 4, {pixel = 'Pixel', solid = 'Solid'})
+	Proc.args.procStyle = ACH:Select(L["Style"], nil, 5, {pixel = 'Pixel', solid = 'Solid'})
+	-- Proc.args.procSpeed = ACH:Range(L["SPEED"], nil, 5, { min = 0.1, max = 40, softMin = 0.01, softMax = 20, step = .1, bigStep = .05 }, nil, get, set, disabled, hidden)
+	Proc.args.procSpeed = ACH:Range(L["SPEED"], L["The lower the setting, the faster.  This value represents the time it takes to rotate 360 degrees."], 6, { min = 0.1, max = 30, softMin = 0.1, softMax = 20, step = 0.1 }, nil, nil, nil, disabled, hidden)
 
 	local Help = ACH:Group(L["Help"], nil, 99, nil, nil, nil, false)
 	rab.args.help = Help

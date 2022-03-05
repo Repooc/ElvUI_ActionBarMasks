@@ -9,7 +9,7 @@ P.rab = {
 		procStyle = 'pixel', -- Valid Values: solid, pixel
 		procColor = {r = 1, g = 1, b = 0, a = 1},
 		procReverse = false,
-		procSpeed = 1,
+		procSpeed = 10,
 		procPulse = true,
 		procEnable = true,
 		procSpin = true,
