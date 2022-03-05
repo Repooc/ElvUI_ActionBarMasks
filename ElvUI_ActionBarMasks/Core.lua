@@ -142,7 +142,6 @@ local function SetupMask(button)
 	local normal = _G[name..'NormalTexture']
 
 	if not button.rabHooked then
-		button.Center:Hide()
 		button.RightEdge:Hide()
 		button.LeftEdge:Hide()
 		button.TopEdge:Hide()
@@ -163,6 +162,7 @@ local function SetupMask(button)
 		if button.hover then button.hover:AddMaskTexture(button.mask) end
 		if button.icon then button.icon:AddMaskTexture(button.mask) end
 		if button.pushed then button.pushed:AddMaskTexture(button.mask) end
+		if button.Center then button.Center:AddMaskTexture(button.mask) end
 		if normal then normal:AddMaskTexture(button.mask) end
 	end
 
