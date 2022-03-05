@@ -66,6 +66,10 @@ function ABM:GetValidBorder()
 	return path, border
 end
 
+function ABM:Print(...)
+	(E.db and _G[E.db.general.messageRedirect] or _G.DEFAULT_CHAT_FRAME):AddMessage(strjoin('', E.media.hexvaluecolor or '|cff00b3ff', 'ActionBar Masks:|r ', ...)) -- I put DEFAULT_CHAT_FRAME as a fail safe.
+end
+
 local function GetOptions()
 	for _, func in pairs(ABM.Configs) do
 		func()
