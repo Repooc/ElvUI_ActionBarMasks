@@ -191,9 +191,15 @@ local function SetupMask(button)
 		button.procFrame:SetParent(button)
 		button.procFrame:SetPoint('Center', button)
 		button.procFrame:Hide()
-		if button.HotKey then button.HotKey:SetParent(button.procFrame) end
 	end
 	button.procFrame:SetSize(button:GetSize())
+
+	if not button.hotkeyFrame then
+		button.hotkeyFrame = CreateFrame('Frame')
+		button.hotkeyFrame:SetParent(button)
+		button.hotkeyFrame:SetPoint('Center', button.procFrame)
+		if button.HotKey then button.HotKey:SetParent(button.hotkeyFrame) end
+	end
 
 	--=================--
 	--= Add Proc Ring =--
