@@ -6,6 +6,9 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.08 3/12/2022',
+		'• fix hotkey text not showing properly',
+	' ',
 	'v1.07 3/5/2022',
 		'• fix trimming of icon on the actionbars/petbar',
 	' ',

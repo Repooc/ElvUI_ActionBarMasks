@@ -1,7 +1,7 @@
 ﻿## Interface: 11402
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
-## Version: 1.07
+## Version: 1.08
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
