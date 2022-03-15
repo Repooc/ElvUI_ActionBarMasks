@@ -206,7 +206,8 @@ local function SetupMask(button)
 	if not button.hotkeyFrame then
 		button.hotkeyFrame = CreateFrame('Frame')
 		button.hotkeyFrame:SetParent(button)
-		button.hotkeyFrame:SetPoint('Center', button.procFrame)
+		button.hotkeyFrame:SetFrameLevel(10)
+		button.hotkeyFrame:SetAllPoints()
 		if button.HotKey then button.HotKey:SetParent(button.hotkeyFrame) end
 	end
 
