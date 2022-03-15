@@ -50,6 +50,15 @@ local DefaultMasks = {
 			border100 = 'Black',
 			border101 = 'Black (Super Thick)'
 		},
+	},
+	shadow = {
+		borders = {
+			border97 = 'White (Thin)',
+			border98 = 'Black (Thin)',
+			border99 = 'White',
+			border100 = 'Black',
+			border101 = 'Black (Super Thick)'
+		},
 	}
 }
 

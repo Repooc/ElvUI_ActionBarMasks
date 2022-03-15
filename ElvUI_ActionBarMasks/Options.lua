@@ -43,7 +43,7 @@ local function configTable()
 	rab.args.general = General
 	General.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, function(info, value) E.db.rab.general[info[#info]] = value E.ShowPopup = true end, not AB.Initialized or false)
 	General.args.spacer1 = ACH:Spacer(1, 'full')
-	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon'}, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
+	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon', shadow = 'Shadow'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	General.args.spacer2 = ACH:Spacer(3, 'full')
 
 	local Border = ACH:Group(L["Border Options"], nil, 10, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable end)
