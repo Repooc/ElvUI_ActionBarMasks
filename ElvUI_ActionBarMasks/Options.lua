@@ -46,7 +46,7 @@ local function configTable()
 	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon', shadow = 'Shadow'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	General.args.spacer2 = ACH:Spacer(3, 'full')
 
-	local Border = ACH:Group(L["Border Options"], nil, 10, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable end)
+	local Border = ACH:Group(L["Border / Shadow Options"], nil, 10, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable end)
 	General.args.Border = Border
 	Border.inline = true
 	Border.args.borderColor = ACH:Color(L["Color"], desc, 1, true, width, function(info)
@@ -58,7 +58,7 @@ local function configTable()
 		c.r, c.g, c.b, c.a = r, g, b, a
 		ABM:UpdateOptions()
 	end)
-	Border.args.borderStyle = ACH:Select(L["Style"], nil, 2, GetBorderValues, nil, nil, function() local _, border = ABM:GetValidBorder() return border end)
+	Border.args.borderStyle = ACH:Select(L["Style"], nil, 2, GetBorderValues, nil, 225, function() local _, border = ABM:GetValidBorder() return border end)
 
 	local Proc = ACH:Group(L["Glow"], nil, 15, nil, function(info) return E.db.rab.general[info[#info]] end, function(info, value) E.db.rab.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.rab.general.enable or not E.db.rab.general.procEnable end)
 	General.args.proc = Proc

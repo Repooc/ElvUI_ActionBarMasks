@@ -162,7 +162,7 @@ local function SetupMask(button)
 	end
 
 	if not button.mask then
-		button.mask = button:CreateMaskTexture(nil, 'Background', nil, 4)
+		button.mask = button:CreateMaskTexture(nil, 'BACKGROUND', nil, 4)
 		button.mask:SetAllPoints(button)
 	end
 
@@ -182,7 +182,6 @@ local function SetupMask(button)
 		button.border = button:CreateTexture()
 		button.border:SetAllPoints(button)
 	end
-	-- button.border:SetTexture(texturePath..db.shape..'\\'..db.borderStyle)
 
 	--==============--
 	--= Add Shadow =--
@@ -277,7 +276,7 @@ local function SetupMask(button)
 	button.rabHooked = true
 
 	-- Some Icon Texture Manipulation to try to make it look a bit better...
-	if button:GetParent() ~= 'ElvUI_StanceBar' or not button.icon then return end
+	if button:GetParent() ~= _G.ElvUI_StanceBar or not button.icon then return end
 
 	local left, right, top, bottom = unpack({-0.05, 1.05, -0.1, 1.1})
 	local changeRatio = button.db and not button.db.keepSizeRatio
