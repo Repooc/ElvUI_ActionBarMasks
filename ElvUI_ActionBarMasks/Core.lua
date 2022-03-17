@@ -51,13 +51,11 @@ local DefaultMasks = {
 			border101 = 'Black (Super Thick)'
 		},
 	},
-	shadow = {
+	square = {
 		borders = {
-			border97 = 'White (Thin)',
-			border98 = 'Black (Thin)',
-			border99 = 'White',
-			border100 = 'Black',
-			border101 = 'Black (Super Thick)'
+			border98 = 'Sort of Glossy',
+			border99 = 'Inner Glow',
+			border100 = 'Outter Glow',
 		},
 	}
 }
@@ -86,9 +84,10 @@ local function GetOptions()
 end
 
 function ABM:UpdateOptions()
+	local path = ABM:GetValidBorder()
 	local db = E.db.rab.general
 	local cooldown
-	local path = ABM:GetValidBorder()
+
 	for button in pairs(AB.handledbuttons) do
 		if button then
 			cooldown = _G[button:GetName()..'Cooldown']
@@ -102,6 +101,8 @@ function ABM:UpdateOptions()
 			end
 			if button.shadow then
 				button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga')
+				button.shadow:SetVertexColor(db.shadowColor.r, db.shadowColor.g, db.shadowColor.b, 1)
+				button.shadow:SetShown(db.shadowEnable and db.shape == 'square' and db.borderStyle ~= 'border100')
 			end
 			if cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga')
@@ -126,9 +127,9 @@ function ABM:UpdateOptions()
 					button.procFrame.rotate:SetDuration(db.procSpeed)
 				end
 				if button.procFrame.pulse then
-					if db.procEnable and  db.procPulse and not button.procFrame.pulse:IsPlaying() then
+					if db.procEnable and db.procPulse and not button.procFrame.pulse:IsPlaying() then
 						button.procFrame.pulse:Play()
-					elseif not db.procEnable or button.procFrame.pulse:IsPlaying() and not db.procPulse  then
+					elseif not db.procEnable or button.procFrame.pulse:IsPlaying() and not db.procPulse then
 						button.procFrame.pulse:Stop()
 					end
 				end
@@ -138,6 +139,33 @@ function ABM:UpdateOptions()
 					elseif not db.procEnable or button.procFrame.spinner:IsPlaying() and not db.procSpin then
 						button.procFrame.spinner:Stop()
 					end
+				end
+				if db.shape == 'square' then
+					button.procFrame:Hide()
+					button.procFrame.spinner:Stop()
+					button.procFrame.pulse:Stop()
+				elseif button.procActive then
+					button.procFrame:Show()
+				end
+			end
+			if button:GetParent() == _G.ElvUI_BarPet and _G[button:GetName()..'Shine'] then
+				_G[button:GetName()..'Shine']:SetAlpha(E.db.rab.general.shape == 'square' and 1 or 0)
+			end
+
+			if db.shape ~= 'square' then
+				if button._PixelGlow then button._PixelGlow:Hide() end
+				if button._ButtonGlow then button._ButtonGlow:Hide() end
+				if button._AutoCastGlow then button._AutoCastGlow:Hide() end
+			else
+				if button.procActive then
+					if button._PixelGlow then
+						button._PixelGlow:ClearAllPoints()
+						button._PixelGlow:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
+						button._PixelGlow:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
+						button._PixelGlow:Show()
+					end
+					if button._ButtonGlow then button._ButtonGlow:Show() end
+					if button._AutoCastGlow then button._AutoCastGlow:Show() end
 				end
 			end
 		end
@@ -179,7 +207,7 @@ local function SetupMask(button)
 	--= Add Border =--
 	--==============--
 	if not button.border then
-		button.border = button:CreateTexture()
+		button.border = button:CreateTexture(nil, 'OVERLAY', nil, 5)
 		button.border:SetAllPoints(button)
 	end
 
@@ -187,7 +215,7 @@ local function SetupMask(button)
 	--= Add Shadow =--
 	--==============--
 	if not button.shadow then
-		button.shadow = button:CreateTexture()
+		button.shadow = button:CreateTexture(nil, 'BACKGROUND')
 		button.shadow:SetAllPoints(button)
 	end
 
@@ -230,7 +258,6 @@ local function SetupMask(button)
 		button.procFrame.procMask:SetPoint('CENTER', button.procFrame.procRing)
 		button.procFrame.procMask:SetSize(80, 80)
 	end
-	--button.procFrame:AddMaskTexture(button.procFrame.procMask)
 
 	--==========================--
 	--= Add Spinner Anim Group =--
@@ -248,9 +275,9 @@ local function SetupMask(button)
 		button.procFrame.rotate:SetTarget(button.procFrame.procMask)
 		button.procFrame.rotate:SetStartDelay(0)
 		button.procFrame.rotate:SetDegrees(360)
+		-- button.procFrame.rotate:SetSmoothing('OUT')
+		-- button.procFrame.rotate:SetOrigin('CENTER', 0, 0)
 	end
-	--button.procFrame.rotate:SetSmoothing('OUT')
-	--button.procFrame.rotate:SetOrigin('CENTER', 0, 0)
 
 	--========================--
 	--= Add Pulse Anim Group =--
@@ -314,7 +341,14 @@ function ABM:PositionAndSizeBarPet()
 	local button
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		button = _G['PetActionButton'..i]
-		if not button.rabHooked then _G[button:GetName()..'Shine']:SetAlpha(0) end
+
+		if _G[button:GetName()..'Shine'] then
+			if E.db.rab.general.shape == 'square' then
+				_G[button:GetName()..'Shine']:ClearAllPoints()
+				_G[button:GetName()..'Shine']:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
+				_G[button:GetName()..'Shine']:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
+			end
+		end
 		SetupMask(button)
 	end
 end
@@ -331,12 +365,35 @@ end
 local function ControlProc(button, autoCastEnabled)
 	if not button or (button and not button.procFrame) then return end
 	local db = E.db.rab.general
+	button.procActive = autoCastEnabled
 
-	if button._PixelGlow and button._PixelGlow:GetAlpha() > 0 then button._PixelGlow:SetAlpha(0) end
-	if button._ButtonGlow and button._ButtonGlow:IsShown() then button._ButtonGlow:Hide() end
-	if button._AutoCastGlow and button._AutoCastGlow:GetAlpha() > 0 then button._AutoCastGlow:SetAlpha(0) end
+	if button._PixelGlow and button._PixelGlow:IsShown() then
+		if db.shape == 'square' then
+			button._PixelGlow:ClearAllPoints()
+			button._PixelGlow:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
+			button._PixelGlow:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
+		else
+			button._PixelGlow:Hide()
+		end
+	end
 
-	if db.procEnable and autoCastEnabled then
+	if button._ButtonGlow and button._ButtonGlow:IsShown() then
+		if db.shape ~= 'square' then
+			button._ButtonGlow:Hide()
+		end
+	end
+
+	if button._AutoCastGlow and button._AutoCastGlow:IsShown() then
+		if db.shape == 'square' then
+			button._AutoCastGlow:ClearAllPoints()
+			button._AutoCastGlow:Point('TOPLEFT', button.procFrame, 'TOPLEFT', 5, -5)
+			button._AutoCastGlow:Point('BOTTOMRIGHT', button.procFrame, 'BOTTOMRIGHT', -5, 5)
+		else
+			button._AutoCastGlow:Hide()
+		end
+	end
+
+	if db.procEnable and db.shape ~= 'square' and button.procActive then
 		button.procFrame:Show()
 		if db.procSpin then
 			button.procFrame.spinner:Play(db.procReverse)
@@ -344,12 +401,10 @@ local function ControlProc(button, autoCastEnabled)
 		if db.procPulse then
 			button.procFrame.pulse:Play()
 		end
-		button.procActive = true
 	else
 		button.procFrame:Hide()
 		button.procFrame.spinner:Stop()
 		button.procFrame.pulse:Stop()
-		button.procActive = false
 	end
 end
 
