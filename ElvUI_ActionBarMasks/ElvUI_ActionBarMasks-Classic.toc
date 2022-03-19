@@ -10,6 +10,7 @@
 
 Profile.lua
 Core.lua
+Migration.lua
 Locales\Load_Locales.xml
 Modules\Load_Modules.xml
 Options.lua

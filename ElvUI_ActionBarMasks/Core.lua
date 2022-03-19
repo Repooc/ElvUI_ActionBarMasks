@@ -65,9 +65,9 @@ function ABM:GetMaskDB()
 end
 
 function ABM:GetValidBorder()
-	local db = E.db.rab.general
+	local db = E.db.abm.general
 	local maskDB = ABM:GetMaskDB()
-	local border = maskDB[db.shape].borders[db.borderStyle] and db.borderStyle or 'border100'
+	local border = maskDB[db.shape].borders[db.border.style] and db.border.style or 'border100'
 	local path = texturePath..db.shape..'\\'..border
 
 	return path, border
@@ -85,7 +85,7 @@ end
 
 function ABM:UpdateOptions()
 	local path = ABM:GetValidBorder()
-	local db = E.db.rab.general
+	local db = E.db.abm.general
 	local cooldown
 
 	for button in pairs(AB.handledbuttons) do
@@ -97,12 +97,12 @@ function ABM:UpdateOptions()
 			end
 			if button.border then
 				button.border:SetTexture(path)
-				button.border:SetVertexColor(db.borderColor.r, db.borderColor.g, db.borderColor.b, 1)
+				button.border:SetVertexColor(db.border.color.r, db.border.color.g, db.border.color.b, 1)
 			end
 			if button.shadow then
 				button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga')
-				button.shadow:SetVertexColor(db.shadowColor.r, db.shadowColor.g, db.shadowColor.b, 1)
-				button.shadow:SetShown(db.shadowEnable and db.shape == 'square' and db.borderStyle ~= 'border100')
+				button.shadow:SetVertexColor(db.shadow.color.r, db.shadow.color.g, db.shadow.color.b, 1)
+				button.shadow:SetShown(db.shadow.enable and db.shape == 'square' and db.border.style ~= 'border100')
 			end
 			if cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga')
@@ -110,10 +110,10 @@ function ABM:UpdateOptions()
 			if button.procFrame then
 				if button.procFrame.procRing then
 					button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
-					button.procFrame.procRing:SetVertexColor(db.procColor.r, db.procColor.g, db.procColor.b, 1)
+					button.procFrame.procRing:SetVertexColor(db.proc.color.r, db.proc.color.g, db.proc.color.b, 1)
 				end
 				if button.procFrame.procMask then
-					if db.procStyle == 'solid' then
+					if db.proc.style == 'solid' then
 						button.procFrame.procMask:SetTexture(texturePath..db.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 					else
 						button.procFrame.procMask:SetTexture(texturePath..'repooctest.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
@@ -124,19 +124,19 @@ function ABM:UpdateOptions()
 					button.procFrame.spinner:SetLooping('REPEAT') --maybe an option... idk yet
 				end
 				if button.procFrame.rotate then
-					button.procFrame.rotate:SetDuration(db.procSpeed)
+					button.procFrame.rotate:SetDuration(db.proc.speed)
 				end
 				if button.procFrame.pulse then
-					if db.procEnable and db.procPulse and not button.procFrame.pulse:IsPlaying() then
+					if db.proc.enable and db.proc.pulse and not button.procFrame.pulse:IsPlaying() then
 						button.procFrame.pulse:Play()
-					elseif not db.procEnable or button.procFrame.pulse:IsPlaying() and not db.procPulse then
+					elseif not db.proc.enable or button.procFrame.pulse:IsPlaying() and not db.proc.pulse then
 						button.procFrame.pulse:Stop()
 					end
 				end
 				if button.procFrame.pulse then
-					if db.procEnable and db.procSpin and not button.procFrame.spinner:IsPlaying() then
-						button.procFrame.spinner:Play(db.procReverse)
-					elseif not db.procEnable or button.procFrame.spinner:IsPlaying() and not db.procSpin then
+					if db.proc.enable and db.proc.spin and not button.procFrame.spinner:IsPlaying() then
+						button.procFrame.spinner:Play(db.proc.reverse)
+					elseif not db.proc.enable or button.procFrame.spinner:IsPlaying() and not db.proc.spin then
 						button.procFrame.spinner:Stop()
 					end
 				end
@@ -144,12 +144,14 @@ function ABM:UpdateOptions()
 					button.procFrame:Hide()
 					button.procFrame.spinner:Stop()
 					button.procFrame.pulse:Stop()
-				elseif button.procActive then
+				elseif db.proc.enable and button.procActive then
 					button.procFrame:Show()
+				elseif not db.proc.enable or not button.procActive then
+					button.procFrame:Hide()
 				end
 			end
 			if button:GetParent() == _G.ElvUI_BarPet and _G[button:GetName()..'Shine'] then
-				_G[button:GetName()..'Shine']:SetAlpha(E.db.rab.general.shape == 'square' and 1 or 0)
+				_G[button:GetName()..'Shine']:SetAlpha(E.db.abm.general.shape == 'square' and 1 or 0)
 			end
 
 			if db.shape ~= 'square' then
@@ -340,11 +342,12 @@ end
 
 function ABM:PositionAndSizeBarPet()
 	local button
+
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		button = _G['PetActionButton'..i]
 
 		if _G[button:GetName()..'Shine'] then
-			if E.db.rab.general.shape == 'square' then
+			if E.db.abm.general.shape == 'square' then
 				_G[button:GetName()..'Shine']:ClearAllPoints()
 				_G[button:GetName()..'Shine']:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
 				_G[button:GetName()..'Shine']:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
@@ -365,7 +368,7 @@ end
 
 local function ControlProc(button, autoCastEnabled)
 	if not button or (button and not button.procFrame) then return end
-	local db = E.db.rab.general
+	local db = E.db.abm.general
 	button.procActive = autoCastEnabled
 
 	if button._PixelGlow and button._PixelGlow:IsShown() then
@@ -394,12 +397,12 @@ local function ControlProc(button, autoCastEnabled)
 		end
 	end
 
-	if db.procEnable and db.shape ~= 'square' and button.procActive then
+	if db.proc.enable and db.shape ~= 'square' and button.procActive then
 		button.procFrame:Show()
-		if db.procSpin then
-			button.procFrame.spinner:Play(db.procReverse)
+		if db.proc.spin then
+			button.procFrame.spinner:Play(db.proc.reverse)
 		end
-		if db.procPulse then
+		if db.proc.pulse then
 			button.procFrame.pulse:Play()
 		end
 	else
@@ -420,7 +423,8 @@ end
 
 function ABM:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions)
-	if not AB.Initialized or not E.db.rab.general.enable then return end
+	if not AB.Initialized or not E.db.abm.general.enable then return end
+	ABM:DBConversions()
 
 	hooksecurefunc(E, 'UpdateDB', ABM.UpdateOptions)
 	hooksecurefunc(AB, 'PositionAndSizeBar', ABM.PositionAndSizeBar)

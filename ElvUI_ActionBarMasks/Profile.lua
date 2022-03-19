@@ -1,19 +1,29 @@
 local _, _, _, P, _ = unpack(ElvUI)
 
-P.rab = {
-	general = {
+local defaults = {
+	enable = false,
+	shape = 'hexagon', -- Valid Values: circle, hexagon, pentagon
+	border = {
+		color = { r = 1, g = 1, b = 1, a = 1 },
+		style = 'border98',
+	},
+	shadow = {
 		enable = true,
-		shape = 'circle', -- Valid Values: circle, hexagon, pentagon
-		shadowEnable = true,
-		shadowColor = {r = 1, g = 1, b = 1, a = 1},
-		borderStyle = 'border98',
-		borderColor = {r = 1, g = 1, b = 1, a = 1},
-		procStyle = 'pixel', -- Valid Values: solid, pixel
-		procColor = {r = 1, g = 1, b = 0, a = 1},
-		procReverse = false,
-		procSpeed = 10,
-		procPulse = true,
-		procEnable = true,
-		procSpin = true,
-	}
+		color = { r = 1, g = 1, b = 1, a = 1 },
+	},
+	proc = {
+		enable = true,
+		style = 'pixel', -- Valid Values: solid, pixel
+		color = { r = 1, g = 1, b = 0, a = 1 },
+		reverse = false,
+		speed = 10,
+		pulse = true,
+		spin = true,
+	},
 }
+
+P.abm = {
+	dbConverted = nil, -- use this to let DBConversions run once per profile
+	general = CopyTable(defaults),
+}
+P.abm.general.enable = true
