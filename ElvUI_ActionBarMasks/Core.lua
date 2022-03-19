@@ -230,12 +230,13 @@ local function SetupMask(button)
 	end
 	button.procFrame:SetSize(button:GetSize())
 
-	if not button.hotkeyFrame then
-		button.hotkeyFrame = CreateFrame('Frame')
-		button.hotkeyFrame:SetParent(button)
-		button.hotkeyFrame:SetFrameLevel(10)
-		button.hotkeyFrame:SetAllPoints()
-		if button.HotKey then button.HotKey:SetParent(button.hotkeyFrame) end
+	if not button.ABM_TextParent then
+		button.ABM_TextParent = CreateFrame('Frame')
+		button.ABM_TextParent:SetParent(button)
+		button.ABM_TextParent:SetFrameLevel(10)
+		button.ABM_TextParent:SetAllPoints()
+		if button.HotKey then button.HotKey:SetParent(button.ABM_TextParent) end
+		if button.Count then button.Count:SetParent(button.ABM_TextParent) end
 	end
 
 	--=================--
