@@ -7,6 +7,7 @@ local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
 	'v1.09 3/18/2022',
+		'• WARNING: Database structure was reorganized.  Conversion should automatically happen but may not work 100% as intended :D',
 		'• fix hotkey text hiding itself when altering the bar settings',
 		'• added a square shape that is a bit more limited in regards to the proc settings as it just follows what elvui uses in General -> Cosmetics section',
 		'• added basic shadow options for square masks',
