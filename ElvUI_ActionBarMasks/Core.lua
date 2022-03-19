@@ -133,7 +133,7 @@ function ABM:UpdateOptions()
 						button.procFrame.pulse:Stop()
 					end
 				end
-				if button.procFrame.pulse then
+				if button.procFrame.spinner then
 					if db.proc.enable and db.proc.spin and not button.procFrame.spinner:IsPlaying() then
 						button.procFrame.spinner:Play(db.proc.reverse)
 					elseif not db.proc.enable or button.procFrame.spinner:IsPlaying() and not db.proc.spin then
