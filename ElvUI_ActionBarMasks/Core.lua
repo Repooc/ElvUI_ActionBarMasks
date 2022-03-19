@@ -108,10 +108,12 @@ function ABM:UpdateOptions()
 				cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga')
 			end
 			if button.procFrame then
-				if button.procFrame.procRing then
-					button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
-					button.procFrame.procRing:SetVertexColor(db.proc.color.r, db.proc.color.g, db.proc.color.b, 1)
-				end
+				button.procFrame:SetSize(button:GetSize())
+
+				button.procFrame.procRing:SetSize(button:GetSize())
+				button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
+				button.procFrame.procRing:SetVertexColor(db.proc.color.r, db.proc.color.g, db.proc.color.b, 1)
+
 				if button.procFrame.procMask then
 					if db.proc.style == 'solid' then
 						button.procFrame.procMask:SetTexture(texturePath..db.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
@@ -168,6 +170,29 @@ function ABM:UpdateOptions()
 					end
 					if button._ButtonGlow then button._ButtonGlow:Show() end
 					if button._AutoCastGlow then button._AutoCastGlow:Show() end
+				end
+			end
+
+			if button.icon and button:GetParent() == _G.ElvUI_StanceBar then
+				local left, right, top, bottom = unpack({-0.05, 1.05, -0.1, 1.1})
+				local changeRatio = button.db and not button.db.keepSizeRatio
+				if changeRatio then
+					local width, height = button:GetSize()
+					local ratio = width / height
+					if ratio > 1 then
+						local trimAmount = (1 - (1 / ratio)) / 2
+						top = top + trimAmount
+						bottom = bottom - trimAmount
+					else
+						local trimAmount = (1 - ratio) / 2
+						left = left + trimAmount
+						right = right - trimAmount
+					end
+				end
+
+				-- always when masque is off, otherwise only when keepSizeRatio is off
+				if not button.useMasque or changeRatio then
+					button.icon:SetTexCoord(left, right, top, bottom)
 				end
 			end
 		end
@@ -230,7 +255,6 @@ local function SetupMask(button)
 		button.procFrame:SetPoint('Center', button)
 		button.procFrame:Hide()
 	end
-	button.procFrame:SetSize(button:GetSize())
 
 	if not button.ABM_TextParent then
 		button.ABM_TextParent = CreateFrame('Frame')
@@ -250,7 +274,6 @@ local function SetupMask(button)
 		button.procFrame.procRing:SetAllPoints(button.procFrame)
 		button.procFrame.procRing:SetDrawLayer('BORDER')
 	end
-	button.procFrame.procRing:SetSize(button:GetSize())
 
 	--================--
 	--= Add ProcMask =--
@@ -304,30 +327,6 @@ local function SetupMask(button)
 	end
 
 	button.rabHooked = true
-
-	-- Some Icon Texture Manipulation to try to make it look a bit better...
-	if button:GetParent() ~= _G.ElvUI_StanceBar or not button.icon then return end
-
-	local left, right, top, bottom = unpack({-0.05, 1.05, -0.1, 1.1})
-	local changeRatio = button.db and not button.db.keepSizeRatio
-	if changeRatio then
-		local width, height = button:GetSize()
-		local ratio = width / height
-		if ratio > 1 then
-			local trimAmount = (1 - (1 / ratio)) / 2
-			top = top + trimAmount
-			bottom = bottom - trimAmount
-		else
-			local trimAmount = (1 - ratio) / 2
-			left = left + trimAmount
-			right = right - trimAmount
-		end
-	end
-
-	-- always when masque is off, otherwise only when keepSizeRatio is off
-	if not button.useMasque or changeRatio then
-		button.icon:SetTexCoord(left, right, top, bottom)
-	end
 end
 
 function ABM:PositionAndSizeBar(barName)
@@ -426,23 +425,23 @@ function ABM:Initialize()
 	if not AB.Initialized or not E.db.abm.general.enable then return end
 	ABM:DBConversions()
 
-	hooksecurefunc(E, 'UpdateDB', ABM.UpdateOptions)
-	hooksecurefunc(AB, 'PositionAndSizeBar', ABM.PositionAndSizeBar)
 	for i = 1, 10 do
 		ABM:PositionAndSizeBar('bar'..i)
 	end
+	hooksecurefunc(AB, 'PositionAndSizeBar', ABM.UpdateOptions)
 
 	ABM:PositionAndSizeBarPet()
-	hooksecurefunc(AB, 'PositionAndSizeBarPet', ABM.PositionAndSizeBarPet)
+	hooksecurefunc(AB, 'PositionAndSizeBarPet', ABM.UpdateOptions)
 
 	ABM:PositionAndSizeBarShapeShift()
-	hooksecurefunc(AB, 'PositionAndSizeBarShapeShift', ABM.PositionAndSizeBarShapeShift)
+	hooksecurefunc(AB, 'PositionAndSizeBarShapeShift', ABM.UpdateOptions)
 
-	ABM:UpdateOptions()
-
+	hooksecurefunc(E, 'UpdateDB', ABM.UpdateOptions)
 	hooksecurefunc(LCG, 'ShowOverlayGlow', function(button) ControlProc(button, true) end)
 	hooksecurefunc(LCG, 'HideOverlayGlow', function(button) ControlProc(button, false) end)
 	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
+
+	ABM:UpdateOptions()
 
 	if not ABMDB then
 		_G.ABMDB = {}
