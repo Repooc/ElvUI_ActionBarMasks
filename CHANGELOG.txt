@@ -1,4 +1,4 @@
-v1.09 3/18/2022
+v1.09 3/19/2022
 
 - WARNING: Database structure was reorganized.  Conversion should automatically happen but may not work 100% as intended :D
 - fix hotkey text hiding itself when altering the bar settings
