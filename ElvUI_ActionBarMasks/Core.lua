@@ -100,7 +100,8 @@ function ABM:UpdateOptions()
 				button.border:SetVertexColor(db.border.color.r, db.border.color.g, db.border.color.b, 1)
 			end
 			if button.shadow then
-				button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga')
+				-- button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga')
+				button.shadow:SetTexture(texturePath..'square\\shadow.tga')
 				button.shadow:SetVertexColor(db.shadow.color.r, db.shadow.color.g, db.shadow.color.b, 1)
 				button.shadow:SetShown(db.shadow.enable and db.shape == 'square' and db.border.style ~= 'border100')
 			end
