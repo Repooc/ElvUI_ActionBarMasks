@@ -6,6 +6,12 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.09 3/18/2022',
+		'• fix hotkey text hiding itself when altering the bar settings',
+		'• added a square shape that is a bit more limited in regards to the proc settings as it just follows what elvui uses in General -> Cosmetics section',
+		'• added basic shadow options for square masks',
+		'• fixed count text strata',
+	' ',
 	'v1.08 3/12/2022',
 		'• fix hotkey text not showing properly',
 	' ',
