@@ -6,6 +6,9 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.10 3/19/2022',
+		'• Hot fix migration script',
+	' ',
 	'v1.09 3/19/2022',
 		'• |cffff0000WARNING:|r Database structure was reorganized.  Conversion should automatically happen but may not work 100% as intended :D',
 		'• fix hotkey text hiding itself when altering the bar settings',
