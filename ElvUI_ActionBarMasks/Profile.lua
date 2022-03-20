@@ -2,10 +2,12 @@ local _, _, _, P, _ = unpack(ElvUI)
 
 local defaults = {
 	enable = false,
-	shape = 'hexagon', -- Valid Values: circle, hexagon, pentagon
 	border = {
 		color = { r = 1, g = 1, b = 1, a = 1 },
 		style = 'border98',
+	},
+	general = {
+		shape = 'hexagon', -- Valid Values: circle, hexagon, pentagon
 	},
 	shadow = {
 		enable = true,
@@ -24,6 +26,6 @@ local defaults = {
 
 P.abm = {
 	dbConverted = nil, -- use this to let DBConversions run once per profile
-	general = CopyTable(defaults),
+	global = CopyTable(defaults),
 }
-P.abm.general.enable = true
+P.abm.global.enable = true

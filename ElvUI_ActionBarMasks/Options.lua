@@ -31,7 +31,7 @@ local TESTER_STRING = table.concat(TESTERS, '|n')
 
 local function GetBorderValues()
 	local maskDB = ABM:GetMaskDB()
-	local shape = E.db.abm.general.shape or 'circle'
+	local shape = E.db.abm.global.general.shape or 'circle'
 	return maskDB[shape].borders
 end
 
@@ -60,29 +60,31 @@ local function configTable()
 	local abm = ACH:Group('|cFF16C3F2ActionBar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
 	E.Options.args.abm = abm
 
-	local General = ACH:Group(L["Mask & Glow Options"], nil, 0, nil, function(info) return E.db.abm.general[info[#info]] end, function(info, value) E.db.abm.general[info[#info]] = value ABM:UpdateOptions() end)
-	abm.args.general = General
-	General.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, function(info, value) E.db.abm.general[info[#info]] = value E.ShowPopup = true end, not AB.Initialized or false)
-	General.args.spacer1 = ACH:Spacer(1, 'full')
-	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon', square = 'Square', octagon = 'Octagon'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.general.enable end)
-	General.args.spacer2 = ACH:Spacer(3, 'full')
+	local Global = ACH:Group(L["Global"], nil, 0, nil, nil, nil)
+	abm.args.global = Global
+	Global.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, function(info) return E.db.abm.global[info[#info]] end, function(info, value) E.db.abm.global[info[#info]] = value E.ShowPopup = true end, not AB.Initialized or false)
 
-	local Border = ACH:Group(L["Border & Texture Options"], nil, 5, nil, function(info) return E.db.abm.general.border[info[#info]] end, function(info, value) E.db.abm.general.border[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.abm.general.enable end)
-	General.args.border = Border
+	local General = ACH:Group(L["General"], nil, 5, nil, function(info) return E.db.abm.global.general[info[#info]] end, function(info, value) E.db.abm.global.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.abm.global.enable end)
+	Global.args.general = General
+	General.inline = true
+	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon', square = 'Square', octagon = 'Octagon'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.global.enable end)
+
+	local Border = ACH:Group(L["Border & Texture Options"], nil, 5, nil, function(info) return E.db.abm.global.border[info[#info]] end, function(info, value) E.db.abm.global.border[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.abm.global.enable end)
+	Global.args.border = Border
 	Border.inline = true
 	Border.args.color = ACH:Color(L["Color"], desc, 1, true, nil, actionSubGroup, actionSubGroup)
 	Border.args.style = ACH:Select(L["Style"], nil, 2, GetBorderValues, nil, 225, function() local _, border = ABM:GetValidBorder() return border end)
 
-	local Shadow = ACH:Group(L["Shadow Options"], nil, 10, nil, actionSubGroup, actionSubGroup, function() return not AB.Initialized or not E.db.abm.general.enable end, function() return E.db.abm.general.shape ~= 'square' or E.db.abm.general.border.style == 'border100' end)
-	General.args.shadow = Shadow
+	local Shadow = ACH:Group(L["Shadow Options"], nil, 10, nil, actionSubGroup, actionSubGroup, function() return not AB.Initialized or not E.db.abm.global.enable end, function() return E.db.abm.global.general.shape ~= 'square' or E.db.abm.global.border.style == 'border100' end)
+	Global.args.shadow = Shadow
 	Shadow.inline = true
 	Shadow.args.enable = ACH:Toggle(L["Enable"], nil, 1)
 	Shadow.args.color = ACH:Color(L["Color"], desc, 2, true)
 
-	local Proc = ACH:Group(L["Spell Proc Glow"], nil, 15, nil, actionSubGroup, actionSubGroup, function() return not AB.Initialized or not E.db.abm.general.enable or not E.db.abm.general.proc.enable end, function() return E.db.abm.general.shape == 'square' end)
-	General.args.proc = Proc
+	local Proc = ACH:Group(L["Spell Proc Glow"], nil, 15, nil, actionSubGroup, actionSubGroup, function() return not AB.Initialized or not E.db.abm.global.enable or not E.db.abm.global.proc.enable end, function() return E.db.abm.global.general.shape == 'square' end)
+	Global.args.proc = Proc
 	Proc.inline = true
-	Proc.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.general.enable end)
+	Proc.args.enable = ACH:Toggle(L["Enable"], nil, 0, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.global.enable end)
 	Proc.args.pulse = ACH:Toggle(L["Pulse"], nil, 1)
 	Proc.args.spin = ACH:Toggle(L["Spin"], nil, 2)
 	Proc.args.spacer1 = ACH:Spacer(3, 'full')
