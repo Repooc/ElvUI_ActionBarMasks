@@ -6,6 +6,9 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.12 3/??/2022',
+		"• Color url's posted in the changelog if any get posted (thanks mera)",
+	' ',
 	'v1.11 3/19/2022',
 		'• Redid changelong frame',
 	' ',
@@ -68,7 +71,7 @@ local function formatURL(url)
 	return url
 end
 
-local function ModifiedString(string)
+local function ModifiedLine(string)
 	local newString = string
 	for _, v in pairs(URL_PATTERNS) do
 		if find(string, v) then
@@ -78,12 +81,16 @@ local function ModifiedString(string)
 	return newString
 end
 
-local function GetChangeLogInfo(i)
-	for line, info in pairs(ChangelogTBL) do
-		if line == i then
-			return info
-		end
-	end
+local changelogLines = {}
+local function GetNumLines()
+   local index = 1
+   for i = 1, #ChangelogTBL do
+		local line = ModifiedLine(ChangelogTBL[i])
+		changelogLines[index] = line
+
+		index = index + 1
+   end
+   return index - 1
 end
 
 function module:CountDown()
@@ -190,20 +197,11 @@ function module:CreateChangelog()
 	editBox:EnableMouse(true)
 	editBox:SetAutoFocus(false)
 	editBox:SetFontObject('ChatFontNormal')
+	editBox:SetTextColor(1, 0.8, 0)
 	editBox:Width(scrollArea:GetWidth())
 	editBox:Height(scrollArea:GetHeight())
 	-- editBox:SetScript('OnEscapePressed', function() _G.ABMChangelog:Hide() end)
 	scrollArea:SetScrollChild(editBox)
-end
-
-local changelogLines = {}
-local function GetNumLines()
-   local index = 1
-   for i = 1, #ChangelogTBL do
-      changelogLines[index] = ChangelogTBL[i]
-      index = index + 1
-   end
-   return index - 1
 end
 
 function module:ToggleChangeLog()
