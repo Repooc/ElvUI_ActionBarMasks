@@ -1,4 +1,4 @@
-v1.12 3/??/2022
+v1.12 3/20/2022
 
 - Color url's posted in the changelog if any get posted (thanks mera)
 - some database conversion done... sorry if i typo'd something and you have to redo the settings...

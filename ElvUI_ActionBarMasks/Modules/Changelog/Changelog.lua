@@ -6,7 +6,7 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
-	'v1.12 3/??/2022',
+	'v1.12 3/20/2022',
 		"• Color url's posted in the changelog if any get posted (thanks mera)",
 		"• some database conversion done... sorry if i typo'd something and you have to redo the settings...",
 		"• changelog will not show if you are in combat upon logging in/reloading ui after an update but should show after combat has ended",
