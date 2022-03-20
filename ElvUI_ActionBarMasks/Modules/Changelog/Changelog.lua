@@ -8,6 +8,9 @@ local format, gsub, find = string.format, string.gsub, string.find
 local ChangelogTBL = {
 	'v1.12 3/??/2022',
 		"• Color url's posted in the changelog if any get posted (thanks mera)",
+		"• some database conversion done... sorry if i typo'd something and you have to redo the settings...",
+		"• changelog will not show if you are in combat upon logging in/reloading ui after an update but should show after combat has ended",
+		'• New Shape Added - Octagon',
 	' ',
 	'v1.11 3/19/2022',
 		'• Redid changelong frame',
@@ -106,12 +109,6 @@ function module:CountDown()
 	end
 end
 
-function module:CheckVersion()
-	if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
-		module:ToggleChangeLog()
-	end
-end
-
 function module:CreateChangelog()
 	local Size = 500
 	local frame = CreateFrame('Frame', 'ABMChangelog', E.UIParent)
@@ -205,10 +202,6 @@ function module:CreateChangelog()
 end
 
 function module:ToggleChangeLog()
-	if not ABMChangelog then
-		module:CreateChangelog()
-	end
-
 	local lineCt = GetNumLines(frame)
 	local text = table.concat(changelogLines, ' \n', 1, lineCt)
 	_G.ABMChangelogFrameEditBox:SetText(text)
@@ -228,7 +221,29 @@ function module:ToggleChangeLog()
 	module:ScheduleRepeatingTimer('CountDown', 1)
 end
 
+function module:CheckVersion()
+	if not InCombatLockdown() then
+		if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
+			module:ToggleChangeLog()
+		end
+	else
+		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event)
+			module:CheckVersion()
+			module:UnregisterEvent(event)
+		end)
+	end
+
+end
+
 function module:Initialize()
+	if not ABMChangelog then
+		module:CreateChangelog()
+	end
+	module:RegisterEvent('PLAYER_REGEN_DISABLED', function()
+		if not frame:IsVisible() then return end
+		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event) frame:Show() module:UnregisterEvent(event) end)
+		frame:Hide()
+	end)
 	E:Delay(6, function() module:CheckVersion() end)
 end
 
