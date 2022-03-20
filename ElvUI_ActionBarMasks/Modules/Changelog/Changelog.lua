@@ -83,33 +83,86 @@ local function GetChangeLogInfo(i)
 	end
 end
 
+function module:CountDown()
+	module.time = module.time - 1
+
+	if module.time == 0 then
+		module:CancelAllTimers()
+		ABMChangelog.close:Enable()
+		ABMChangelog.close:SetText(CLOSE)
+	else
+		ABMChangelog.close:Disable()
+		ABMChangelog.close:SetText(CLOSE..format(' (%s)', module.time))
+	end
+end
+
+function module:CheckVersion()
+	if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
+		module:ToggleChangeLog()
+	end
+end
+
 function module:CreateChangelog()
-	local frame = CreateFrame('Frame', 'ABM_Changelog', E.UIParent, 'BackdropTemplate')
-	frame:Point('CENTER')
-	frame:Size(700, 700)
+	local Size = 500
+	local frame = CreateFrame('Frame', 'ABMChangelog', E.UIParent)
+	tinsert(_G.UISpecialFrames, 'ABMChangelog')
 	frame:SetTemplate('Transparent')
+	frame:Size(Size, Size)
+	frame:Point('CENTER', 0, 0)
+	frame:Hide()
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
-	frame:RegisterForDrag('LeftButton')
-	frame:SetScript('OnDragStart', frame.StartMoving)
-	frame:SetScript('OnDragStop', frame.StopMovingOrSizing)
-	frame:SetClampedToScreen(true)
+	frame:SetResizable(true)
+	frame:SetMinResize(350, 100)
+	frame:SetScript('OnMouseDown', function(changelog, button)
+		if button == 'LeftButton' and not changelog.isMoving then
+			changelog:StartMoving()
+			changelog.isMoving = true
+		elseif button == 'RightButton' and not changelog.isSizing then
+			changelog:StartSizing()
+			changelog.isSizing = true
+		end
+	end)
+	frame:SetScript('OnMouseUp', function(changelog, button)
+		if button == 'LeftButton' and changelog.isMoving then
+			changelog:StopMovingOrSizing()
+			changelog.isMoving = false
+		elseif button == 'RightButton' and changelog.isSizing then
+			changelog:StopMovingOrSizing()
+			changelog.isSizing = false
+		end
+	end)
+	frame:SetScript('OnHide', function(changelog)
+		if changelog.isMoving or changelog.isSizing then
+			changelog:StopMovingOrSizing()
+			changelog.isMoving = false
+			changelog.isSizing = false
+		end
+	end)
+	frame:SetFrameStrata('DIALOG')
 
-	local title = CreateFrame('Frame', nil, frame, 'BackdropTemplate')
-	title:Point('TOP', frame, 'TOP', 0, 0)
-	title:Size(frame:GetWidth(), 22)
-	title:SetTemplate('Transparent')
+	local header = CreateFrame('Frame', nil, frame, 'BackdropTemplate')
+	header:Point('TOPLEFT', frame, 0, 0)
+	header:Point('TOPRIGHT', frame, 0, 0)
+	header:Point('TOP')
+	header:SetHeight(25)
+	header:SetTemplate('Transparent')
+	header.text = header:CreateFontString(nil, 'OVERLAY')
+	header.text:FontTemplate(nil, 15, 'OUTLINE')
+	header.text:SetHeight(header.text:GetStringHeight()+30)
+	header.text:SetText('ActionBar Masks - Changelog '..format('|cff00c0fa%s|r', ABM.Version))
+	header.text:SetTextColor(1, 0.8, 0)
+	header.text:Point('CENTER', header, 0, -1)
 
-	title.text = title:CreateFontString(nil, 'OVERLAY')
-	title.text:FontTemplate(nil, 15, 'OUTLINE')
-	title.text:SetHeight(title.text:GetStringHeight()+30)
-	title.text:SetText('')
-	title.text:SetTextColor(1, 0.8, 0)
-	title.text:Point('CENTER', title, 0, -1)
-	title.text:SetText('ActionBar Masks - Changelog '..format('|cff00c0fa%s|r', ABM.Version))
+	local footer = CreateFrame('Frame', nil, frame)
+	footer:Point('BOTTOMLEFT', frame, 0, 0)
+	footer:Point('BOTTOMRIGHT', frame, 0, 0)
+	footer:Point('BOTTOM')
+	footer:SetHeight(30)
+	footer:SetTemplate('Transparent')
 
-	local close = CreateFrame('Button', nil, frame, 'UIPanelButtonTemplate, BackdropTemplate')
-	close:Point('BOTTOM', frame, 'BOTTOM', 0, 10)
+	local close = CreateFrame('Button', nil, footer, 'UIPanelButtonTemplate, BackdropTemplate')
+	close:Point('CENTER')
 	close:SetText(CLOSE)
 	close:Size(80, 20)
 	close:SetScript('OnClick', function()
@@ -120,59 +173,44 @@ function module:CreateChangelog()
 	close:Disable()
 	frame.close = close
 
-	local content = CreateFrame('Frame', nil, frame, 'BackdropTemplate')
-	content:Point('TOPLEFT', title, 'BOTTOMLEFT', 0, 0)
-	content:Point('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', 0, 0)
-	content:EnableMouse(true)
+	local scrollArea = CreateFrame('ScrollFrame', 'ABMChangelogScrollFrame', frame, 'UIPanelScrollFrameTemplate')
+	scrollArea:Point('TOPLEFT', header, 'BOTTOMLEFT', 8, -3)
+	scrollArea:Point('BOTTOMRIGHT', footer, 'TOPRIGHT', -25, 3)
+	S:HandleScrollBar(_G.ABMChangelogScrollFrameScrollBar, nil, nil, 'Transparent')
+	scrollArea:HookScript('OnVerticalScroll', function(scroll, offset)
+		_G.ABMChangelogFrameEditBox:SetHitRectInsets(0, 0, offset, (_G.ABMChangelogFrameEditBox:GetHeight() - offset - scroll:GetHeight()))
+	end)
 
-	local offset = 4
-	for i = 1, #ChangelogTBL do
-		local button = CreateFrame('Frame', 'Button'..i, content)
-		button:SetWidth(frame:GetWidth())
-		button:Point('TOPLEFT', content, 'TOPLEFT', 5, -offset)
-		if i <= #ChangelogTBL then
-			local string, isURL = ModifiedString(GetChangeLogInfo(i))
-
-			button.Text = button:CreateFontString(nil, 'OVERLAY')
-			button.Text:FontTemplate(nil, 11, 'OUTLINE')
-			button.Text:SetWordWrap(true)
-			button.Text:SetJustifyH('LEFT')
-			button.Text:SetHeight(button.Text:GetStringHeight()+30)
-			button.Text:SetWidth(frame:GetWidth() - 20)
-			button:EnableMouse(true)
-			if button.Text then
-				button.Text:SetText(button.Text)
-			else
-				button.Text:SetText('')
-			end
-			button.Text:SetTextColor(1, 0.8, 0)
-			button:SetHeight(button.Text:GetHeight())
-
-			button.Text.isURL = isURL
-			button.Text:SetText(string)
-			button.Text:Point('LEFT', 0, 0)
-		end
-		offset = offset + 16
-	end
+	local editBox = CreateFrame('EditBox', 'ABMChangelogFrameEditBox', frame)
+	editBox:SetMultiLine(true)
+	editBox:SetMaxLetters(99999)
+	editBox:EnableMouse(true)
+	editBox:SetAutoFocus(false)
+	editBox:SetFontObject('ChatFontNormal')
+	editBox:Width(scrollArea:GetWidth())
+	editBox:Height(scrollArea:GetHeight())
+	-- editBox:SetScript('OnEscapePressed', function() _G.ABMChangelog:Hide() end)
+	scrollArea:SetScrollChild(editBox)
 end
 
-function module:CountDown()
-	module.time = module.time - 1
-
-	if module.time == 0 then
-		module:CancelAllTimers()
-		ABM_Changelog.close:Enable()
-		ABM_Changelog.close:SetText(CLOSE)
-	else
-		ABM_Changelog.close:Disable()
-		ABM_Changelog.close:SetText(CLOSE..format(' (%s)', module.time))
-	end
+local changelogLines = {}
+local function GetNumLines()
+   local index = 1
+   for i = 1, #ChangelogTBL do
+      changelogLines[index] = ChangelogTBL[i]
+      index = index + 1
+   end
+   return index - 1
 end
 
 function module:ToggleChangeLog()
-	if not ABM_Changelog then
+	if not ABMChangelog then
 		module:CreateChangelog()
 	end
+
+	local lineCt = GetNumLines(frame)
+	local text = table.concat(changelogLines, ' \n', 1, lineCt)
+	_G.ABMChangelogFrameEditBox:SetText(text)
 
 	PlaySound(888)
 
@@ -181,18 +219,12 @@ function module:ToggleChangeLog()
 	fadeInfo.timeToFade = 0.5
 	fadeInfo.startAlpha = 0
 	fadeInfo.endAlpha = 1
-	E:UIFrameFade(ABM_Changelog, fadeInfo)
+	E:UIFrameFade(ABMChangelog, fadeInfo)
 
 	module.time = 6
 	module:CancelAllTimers()
 	module:CountDown()
 	module:ScheduleRepeatingTimer('CountDown', 1)
-end
-
-function module:CheckVersion()
-	if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
-		module:ToggleChangeLog()
-	end
 end
 
 function module:Initialize()
