@@ -240,9 +240,9 @@ function module:Initialize()
 		module:CreateChangelog()
 	end
 	module:RegisterEvent('PLAYER_REGEN_DISABLED', function()
-		if not frame:IsVisible() then return end
-		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event) frame:Show() module:UnregisterEvent(event) end)
-		frame:Hide()
+		if ABMChangelog and not ABMChangelog:IsVisible() then return end
+		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event) ABMChangelog:Show() module:UnregisterEvent(event) end)
+		ABMChangelog:Hide()
 	end)
 	E:Delay(6, function() module:CheckVersion() end)
 end
