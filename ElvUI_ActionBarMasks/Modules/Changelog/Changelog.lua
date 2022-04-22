@@ -160,7 +160,7 @@ function module:CreateChangelog()
 	header.text = header:CreateFontString(nil, 'OVERLAY')
 	header.text:FontTemplate(nil, 15, 'OUTLINE')
 	header.text:SetHeight(header.text:GetStringHeight()+30)
-	header.text:SetText(format('%s - Changelog |cff00c0fa%s|r', ABM.Title, ABM.Version))
+	header.text:SetText('ActionBar Masks - Changelog '..format('|cff00c0fa%s|r', ABM.Version))
 	header.text:SetTextColor(1, 0.8, 0)
 	header.text:Point('CENTER', header, 0, -1)
 

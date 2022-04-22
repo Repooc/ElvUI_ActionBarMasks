@@ -1,6 +1,4 @@
-﻿## Interface: 90200
-## Interface-BCC: 20504
-## Interface-Classic: 11402
+## Interface: 90200
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
 ## Version: 1.13
