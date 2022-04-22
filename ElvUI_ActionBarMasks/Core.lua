@@ -61,6 +61,15 @@ local DefaultMasks = {
 			border101 = 'Black (Super Thick)'
 		},
 	},
+	pentagon2 = {
+		borders = {
+			border97 = 'White (Thin)',
+			border98 = 'Black (Thin)',
+			border99 = 'White',
+			border100 = 'Black',
+			border101 = 'Black (Super Thick)'
+		},
+	},
 	square = {
 		borders = {
 			border98 = 'Sort of Glossy',
