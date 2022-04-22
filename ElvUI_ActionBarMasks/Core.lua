@@ -7,6 +7,7 @@ local AddOnName, Engine = ...
 local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
 _G[AddOnName] = Engine
 
+ABM.Title = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Title')
 ABM.Version = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
 ABM.Configs = {}
 
@@ -74,10 +75,10 @@ function ABM:GetMaskDB()
 end
 
 function ABM:GetValidBorder()
-	local db = E.db.abm.general
+	local db = E.db.abm.global
 	local maskDB = ABM:GetMaskDB()
-	local border = maskDB[db.shape].borders[db.border.style] and db.border.style or 'border100'
-	local path = texturePath..db.shape..'\\'..border
+	local border = maskDB[db.general.shape].borders[db.border.style] and db.border.style or 'border100'
+	local path = texturePath..db.general.shape..'\\'..border
 
 	return path, border
 end
@@ -94,7 +95,7 @@ end
 
 function ABM:UpdateOptions()
 	local path = ABM:GetValidBorder()
-	local db = E.db.abm.general
+	local db = E.db.abm.global
 	local cooldown
 
 	for button in pairs(AB.handledbuttons) do
@@ -102,31 +103,31 @@ function ABM:UpdateOptions()
 			cooldown = _G[button:GetName()..'Cooldown']
 
 			if button.mask then
-				button.mask:SetTexture(texturePath..db.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
+				button.mask:SetTexture(texturePath..db.general.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 			end
 			if button.border then
 				button.border:SetTexture(path)
 				button.border:SetVertexColor(db.border.color.r, db.border.color.g, db.border.color.b, 1)
 			end
 			if button.shadow then
-				-- button.shadow:SetTexture(texturePath..db.shape..'\\shadow.tga')
+				-- button.shadow:SetTexture(texturePath..db.general.shape..'\\shadow.tga')
 				button.shadow:SetTexture(texturePath..'square\\shadow.tga')
 				button.shadow:SetVertexColor(db.shadow.color.r, db.shadow.color.g, db.shadow.color.b, 1)
-				button.shadow:SetShown(db.shadow.enable and db.shape == 'square' and db.border.style ~= 'border100')
+				button.shadow:SetShown(db.shadow.enable and db.general.shape == 'square' and db.border.style ~= 'border100')
 			end
 			if cooldown:GetDrawSwipe() then
-				cooldown:SetSwipeTexture(texturePath..db.shape..'\\mask.tga')
+				cooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
 			end
 			if button.procFrame then
 				button.procFrame:SetSize(button:GetSize())
 
 				button.procFrame.procRing:SetSize(button:GetSize())
-				button.procFrame.procRing:SetTexture(texturePath..db.shape..'\\procRingWhite')
+				button.procFrame.procRing:SetTexture(texturePath..db.general.shape..'\\procRingWhite')
 				button.procFrame.procRing:SetVertexColor(db.proc.color.r, db.proc.color.g, db.proc.color.b, 1)
 
 				if button.procFrame.procMask then
 					if db.proc.style == 'solid' then
-						button.procFrame.procMask:SetTexture(texturePath..db.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
+						button.procFrame.procMask:SetTexture(texturePath..db.general.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 					else
 						button.procFrame.procMask:SetTexture(texturePath..'repooctest.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 					end
@@ -152,7 +153,7 @@ function ABM:UpdateOptions()
 						button.procFrame.spinner:Stop()
 					end
 				end
-				if db.shape == 'square' then
+				if db.general.shape == 'square' then
 					button.procFrame:Hide()
 					button.procFrame.spinner:Stop()
 					button.procFrame.pulse:Stop()
@@ -163,10 +164,10 @@ function ABM:UpdateOptions()
 				end
 			end
 			if button:GetParent() == _G.ElvUI_BarPet and _G[button:GetName()..'Shine'] then
-				_G[button:GetName()..'Shine']:SetAlpha(E.db.abm.general.shape == 'square' and 1 or 0)
+				_G[button:GetName()..'Shine']:SetAlpha(db.general.shape == 'square' and 1 or 0)
 			end
 
-			if db.shape ~= 'square' then
+			if db.general.shape ~= 'square' then
 				if button._PixelGlow then button._PixelGlow:Hide() end
 				if button._ButtonGlow then button._ButtonGlow:Hide() end
 				if button._AutoCastGlow then button._AutoCastGlow:Hide() end
@@ -356,7 +357,7 @@ function ABM:PositionAndSizeBarPet()
 		button = _G['PetActionButton'..i]
 
 		if _G[button:GetName()..'Shine'] then
-			if E.db.abm.general.shape == 'square' then
+			if E.db.abm.global.general.shape == 'square' then
 				_G[button:GetName()..'Shine']:ClearAllPoints()
 				_G[button:GetName()..'Shine']:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
 				_G[button:GetName()..'Shine']:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
@@ -377,11 +378,11 @@ end
 
 local function ControlProc(button, autoCastEnabled)
 	if not button or (button and not button.procFrame) then return end
-	local db = E.db.abm.general
+	local db = E.db.abm.global
 	button.procActive = autoCastEnabled
 
 	if button._PixelGlow and button._PixelGlow:IsShown() then
-		if db.shape == 'square' then
+		if db.general.shape == 'square' then
 			button._PixelGlow:ClearAllPoints()
 			button._PixelGlow:Point('TOPLEFT', button, 'TOPLEFT', 5, -5)
 			button._PixelGlow:Point('BOTTOMRIGHT', button, 'BOTTOMRIGHT', -5, 5)
@@ -391,13 +392,13 @@ local function ControlProc(button, autoCastEnabled)
 	end
 
 	if button._ButtonGlow and button._ButtonGlow:IsShown() then
-		if db.shape ~= 'square' then
+		if db.general.shape ~= 'square' then
 			button._ButtonGlow:Hide()
 		end
 	end
 
 	if button._AutoCastGlow and button._AutoCastGlow:IsShown() then
-		if db.shape == 'square' then
+		if db.general.shape == 'square' then
 			button._AutoCastGlow:ClearAllPoints()
 			button._AutoCastGlow:Point('TOPLEFT', button.procFrame, 'TOPLEFT', 5, -5)
 			button._AutoCastGlow:Point('BOTTOMRIGHT', button.procFrame, 'BOTTOMRIGHT', -5, 5)
@@ -406,7 +407,7 @@ local function ControlProc(button, autoCastEnabled)
 		end
 	end
 
-	if db.proc.enable and db.shape ~= 'square' and button.procActive then
+	if db.proc.enable and db.general.shape ~= 'square' and button.procActive then
 		button.procFrame:Show()
 		if db.proc.spin then
 			button.procFrame.spinner:Play(db.proc.reverse)
@@ -432,7 +433,7 @@ end
 
 function ABM:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions)
-	if not AB.Initialized or not E.db.abm.general.enable then return end
+	if not AB.Initialized or not E.db.abm.global.enable then return end
 	ABM:DBConversions()
 
 	for i = 1, 10 do

@@ -6,8 +6,14 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
-	'v1.12 3/??/2022',
+	'v1.13 3/20/2022',
+		"• Hotfix changelog error",
+	' ',
+	'v1.12 3/20/2022',
 		"• Color url's posted in the changelog if any get posted (thanks mera)",
+		"• some database conversion done... sorry if i typo'd something and you have to redo the settings...",
+		"• changelog will not show if you are in combat upon logging in/reloading ui after an update but should show after combat has ended",
+		'• New Shape Added - Octagon',
 	' ',
 	'v1.11 3/19/2022',
 		'• Redid changelong frame',
@@ -106,12 +112,6 @@ function module:CountDown()
 	end
 end
 
-function module:CheckVersion()
-	if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
-		module:ToggleChangeLog()
-	end
-end
-
 function module:CreateChangelog()
 	local Size = 500
 	local frame = CreateFrame('Frame', 'ABMChangelog', E.UIParent)
@@ -160,7 +160,7 @@ function module:CreateChangelog()
 	header.text = header:CreateFontString(nil, 'OVERLAY')
 	header.text:FontTemplate(nil, 15, 'OUTLINE')
 	header.text:SetHeight(header.text:GetStringHeight()+30)
-	header.text:SetText('ActionBar Masks - Changelog '..format('|cff00c0fa%s|r', ABM.Version))
+	header.text:SetText(format('%s - Changelog |cff00c0fa%s|r', ABM.Title, ABM.Version))
 	header.text:SetTextColor(1, 0.8, 0)
 	header.text:Point('CENTER', header, 0, -1)
 
@@ -205,10 +205,6 @@ function module:CreateChangelog()
 end
 
 function module:ToggleChangeLog()
-	if not ABMChangelog then
-		module:CreateChangelog()
-	end
-
 	local lineCt = GetNumLines(frame)
 	local text = table.concat(changelogLines, ' \n', 1, lineCt)
 	_G.ABMChangelogFrameEditBox:SetText(text)
@@ -228,7 +224,29 @@ function module:ToggleChangeLog()
 	module:ScheduleRepeatingTimer('CountDown', 1)
 end
 
+function module:CheckVersion()
+	if not InCombatLockdown() then
+		if not ABMDB['Version'] or (ABMDB['Version'] and ABMDB['Version'] ~= ABM.Version) then
+			module:ToggleChangeLog()
+		end
+	else
+		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event)
+			module:CheckVersion()
+			module:UnregisterEvent(event)
+		end)
+	end
+
+end
+
 function module:Initialize()
+	if not ABMChangelog then
+		module:CreateChangelog()
+	end
+	module:RegisterEvent('PLAYER_REGEN_DISABLED', function()
+		if ABMChangelog and not ABMChangelog:IsVisible() then return end
+		module:RegisterEvent('PLAYER_REGEN_ENABLED', function(event) ABMChangelog:Show() module:UnregisterEvent(event) end)
+		ABMChangelog:Hide()
+	end)
 	E:Delay(6, function() module:CheckVersion() end)
 end
 
