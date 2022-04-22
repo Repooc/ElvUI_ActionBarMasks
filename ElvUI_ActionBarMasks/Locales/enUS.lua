@@ -18,6 +18,7 @@ L["Wago Page"] = true
 -- Do not translate as they are in ElvUI Locales already
 -- L["Changelog"]
 -- L["Color"]
+-- L["Credits"]
 -- L["Discord"]
 -- L["Enable"]
 -- L["Glow"]

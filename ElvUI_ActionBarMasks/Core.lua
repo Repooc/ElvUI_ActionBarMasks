@@ -7,6 +7,7 @@ local AddOnName, Engine = ...
 local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
 _G[AddOnName] = Engine
 
+ABM.Title = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Title')
 ABM.Version = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
 ABM.Configs = {}
 
@@ -52,15 +53,6 @@ local DefaultMasks = {
 		},
 	},
 	pentagon = {
-		borders = {
-			border97 = 'White (Thin)',
-			border98 = 'Black (Thin)',
-			border99 = 'White',
-			border100 = 'Black',
-			border101 = 'Black (Super Thick)'
-		},
-	},
-	pentagon2 = {
 		borders = {
 			border97 = 'White (Thin)',
 			border98 = 'Black (Thin)',
