@@ -226,14 +226,16 @@ local function SetupMask(button)
 	local normal = _G[name..'NormalTexture']
 
 	if not button.rabHooked then
-		button.RightEdge:Hide()
-		button.LeftEdge:Hide()
-		button.TopEdge:Hide()
-		button.TopRightCorner:Hide()
-		button.TopLeftCorner:Hide()
-		button.BottomRightCorner:Hide()
-		button.BottomLeftCorner:Hide()
-		button.BottomEdge:Hide()
+		if button.RightEdge then button.RightEdge:Hide() end
+		if button.LeftEdge then button.LeftEdge:Hide() end
+		if button.TopEdge then button.TopEdge:Hide() end
+		if button.TopRightCorner then button.TopRightCorner:Hide() end
+		if button.TopLeftCorner then button.TopLeftCorner:Hide() end
+		if button.BottomRightCorner then button.BottomRightCorner:Hide() end
+		if button.BottomLeftCorner then button.BottomLeftCorner:Hide() end
+		if button.BottomEdge then button.BottomEdge:Hide() end
+		if button.iborder then button.iborder:Hide() end
+		if button.oborder then button.oborder:Hide() end
 	end
 
 	if not button.mask then
