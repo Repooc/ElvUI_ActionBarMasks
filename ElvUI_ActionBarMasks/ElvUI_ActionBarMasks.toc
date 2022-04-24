@@ -1,9 +1,9 @@
 ﻿## Interface: 90200
 ## Interface-BCC: 20504
-## Interface-Classic: 11402
+## Interface-Classic: 11403
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
-## Version: 1.13
+## Version: 1.14
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
