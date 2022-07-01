@@ -11,21 +11,24 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
       CF_API_KEY: ${{ secrets.CF_API_KEY }}
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
     steps:
       - name: Clone Project
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
         with:
           fetch-depth: 100
+      - name: Setup Environment
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Release Job
         uses: BigWigsMods/packager@master
-      # - name: Classic
-      #   uses: BigWigsMods/packager@master
-      #   with:
-      #     args: -g classic
-      # - name: TBC
-      #   uses: BigWigsMods/packager@master
-      #   with:
-      #     args: -g bcc
+      - name: Notify Discord
+        if: success()
+        uses: jhogendorn/djs-actions@main
+        with:
+          id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          title: New ElvUI ActionBarMasks Released
+          description: ElvUI ActionBarMasks version ${{ env.RELEASE_VERSION }} has been released.  You can use your wow addon client that can download from wago addons or curse to update.
+          footer: Addons by Repooc
+          timestamp: true
