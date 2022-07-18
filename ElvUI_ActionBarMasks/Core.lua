@@ -106,6 +106,12 @@ function ABM:UpdateOptions()
 	local path = ABM:GetValidBorder()
 	local db = E.db.abm.global
 	local cooldown
+	
+	--windtools by default reskins elvui actionbars, disable that setting to prevent errors
+	if IsAddOnLoaded("ElvUI_WindTools")  then
+		E.private["WT"]["skins"]["elvui"]["actionBarsBackdrop"] = false
+		E.private["WT"]["skins"]["elvui"]["actionBarsButton"] = false
+	end
 
 	for button in pairs(AB.handledbuttons) do
 		if button then
