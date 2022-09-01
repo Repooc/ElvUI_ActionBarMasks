@@ -1,3 +1,3 @@
-v1.15 6/30/2022
+v1.16 8/31/2022
 
-• toc bump
+• toc bump for retail and wrath
