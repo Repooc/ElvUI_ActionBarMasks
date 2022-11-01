@@ -11,6 +11,8 @@ ABM.Title = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Title')
 ABM.Version = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
 ABM.Configs = {}
 
+local STANCE_SLOTS = _G.NUM_STANCE_SLOTS or 10
+local ACTION_SLOTS = _G.NUM_PET_ACTION_SLOTS or 10
 local texturePath = 'Interface\\Addons\\ElvUI_ActionBarMasks\\Textures\\'
 
 local DefaultMasks = {
@@ -364,7 +366,7 @@ end
 function ABM:PositionAndSizeBarPet()
 	local button
 
-	for i = 1, NUM_PET_ACTION_SLOTS do
+	for i = 1, ACTION_SLOTS do
 		button = _G['PetActionButton'..i]
 
 		if _G[button:GetName()..'Shine'] then
@@ -380,7 +382,7 @@ end
 
 function ABM:PositionAndSizeBarShapeShift()
 	local button
-	for i = 1, NUM_STANCE_SLOTS do
+	for i = 1, STANCE_SLOTS do
 		button = _G['ElvUI_StanceBarButton'..i]
 		if not button.rabHooked then _G[button:GetName()..'Shine']:SetAlpha(0) end
 		SetupMask(button)
@@ -435,7 +437,7 @@ end
 
 function ABM:UpdatePet(event, unit)
 	if (event == 'UNIT_FLAGS' or event == 'UNIT_PET') and unit ~= 'pet' then return end
-	for i = 1, NUM_PET_ACTION_SLOTS, 1 do
+	for i = 1, ACTION_SLOTS, 1 do
 		local button = _G['PetActionButton'..i]
 		local _, _, _, _, _, autoCastEnabled = GetPetActionInfo(i)
 		ControlProc(button, autoCastEnabled)
