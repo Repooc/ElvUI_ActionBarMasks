@@ -1,4 +1,4 @@
-﻿## Interface: 90207
+﻿## Interface: 100000
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
 ## Version: 1.16
