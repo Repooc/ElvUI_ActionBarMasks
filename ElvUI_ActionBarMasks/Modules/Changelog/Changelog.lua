@@ -133,7 +133,11 @@ function module:CreateChangelog()
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
 	frame:SetResizable(true)
-	frame:SetResizeBounds(350, 100)
+	if E.Retail then
+		frame:SetResizeBounds(350, 100)
+	else
+		frame:SetMinResize(350, 100)
+	end
 	frame:SetScript('OnMouseDown', function(changelog, button)
 		if button == 'LeftButton' and not changelog.isMoving then
 			changelog:StartMoving()
