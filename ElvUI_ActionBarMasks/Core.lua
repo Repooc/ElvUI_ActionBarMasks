@@ -450,6 +450,11 @@ function ABM:Initialize()
 	for i = 1, 10 do
 		ABM:PositionAndSizeBar('bar'..i)
 	end
+	if E.Retail then
+		for i = 13, 15 do
+			ABM:PositionAndSizeBar('bar'..i)
+		end
+	end
 	hooksecurefunc(AB, 'PositionAndSizeBar', ABM.UpdateOptions)
 
 	ABM:PositionAndSizeBarPet()
