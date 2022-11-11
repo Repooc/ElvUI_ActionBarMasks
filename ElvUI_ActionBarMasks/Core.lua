@@ -1,6 +1,6 @@
 local E = unpack(ElvUI)
 local EP = LibStub('LibElvUIPlugin-1.0')
-local LCG = E.Libs.CustomGlow
+local LCG = E.Libs.ButtonGlow
 local AB = E.ActionBars
 local AddOnName, Engine = ...
 
