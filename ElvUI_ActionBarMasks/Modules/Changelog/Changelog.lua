@@ -6,6 +6,12 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.20 2/4/2023',
+		'• update codebase for wrath change',
+	' ',
+	'v1.19 11/29/2022',
+		'• update codebase to reflect elvui changes (readded libcustomglow)',
+	' ',
 	'v1.18 11/14/2022',
 		'• update codebase to reflect elvui changes',
 	' ',
@@ -140,7 +146,7 @@ function module:CreateChangelog()
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
 	frame:SetResizable(true)
-	if E.Retail then
+	if not E.Classic then
 		frame:SetResizeBounds(350, 100)
 	else
 		frame:SetMinResize(350, 100)

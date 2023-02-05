@@ -346,7 +346,7 @@ local function SetupMask(button)
 		button.procFrame.scaleOut:SetDuration(0.7)
 		button.procFrame.scaleOut:SetStartDelay(0)
 		button.procFrame.scaleOut:SetSmoothing('OUT')
-		if E.Retail then
+		if not E.Classic then
 			button.procFrame.scaleOut:SetScaleFrom(0.98, 0.98)
 			button.procFrame.scaleOut:SetScaleTo(1.05, 1.05)
 		else

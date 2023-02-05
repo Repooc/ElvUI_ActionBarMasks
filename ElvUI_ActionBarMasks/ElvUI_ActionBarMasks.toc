@@ -1,7 +1,7 @@
-﻿## Interface: 100000
+﻿## Interface: 100005
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
-## Version: 1.18
+## Version: 1.20
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
