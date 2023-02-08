@@ -246,6 +246,7 @@ local function SetupMask(button)
 	end
 
 	if button.mask and not button.rabHooked then
+		if button.SpellHighlightTexture then button.SpellHighlightTexture:AddMaskTexture(button.mask) end
 		if button.checked then button.checked:AddMaskTexture(button.mask) end
 		if button.hover then button.hover:AddMaskTexture(button.mask) end
 		if button.icon then button.icon:AddMaskTexture(button.mask) end
