@@ -9,6 +9,7 @@ local ChangelogTBL = {
 	'v1.21 2/11/2023',
 		'• mask the highlight texture when mouse overing a spell in the spellbook',
 		'• fix charge cooldown mask',
+		'• added option to rotate the texture',
 	' ',
 	'v1.20 2/4/2023',
 		'• update codebase for wrath change',
