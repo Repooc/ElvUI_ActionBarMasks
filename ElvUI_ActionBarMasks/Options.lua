@@ -74,6 +74,7 @@ local function configTable()
 	Border.inline = true
 	Border.args.color = ACH:Color(L["Color"], desc, 1, true, nil, actionSubGroup, actionSubGroup)
 	Border.args.style = ACH:Select(L["Style"], nil, 2, GetBorderValues, nil, 225, function() local _, border = ABM:GetValidBorder() return border end)
+	Border.args.rotate = ACH:Range(L["Rotate"], nil, 2, { min = -3.14, max = 3.14, step = 0.01 })
 
 	local Shadow = ACH:Group(L["Shadow Options"], nil, 10, nil, actionSubGroup, actionSubGroup, function() return not AB.Initialized or not E.db.abm.global.enable end, function() return E.db.abm.global.general.shape ~= 'square' or E.db.abm.global.border.style == 'border100' end)
 	Global.args.shadow = Shadow

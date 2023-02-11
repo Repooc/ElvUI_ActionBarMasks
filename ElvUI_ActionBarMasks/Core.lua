@@ -115,19 +115,25 @@ function ABM:UpdateOptions()
 
 			if button.mask then
 				button.mask:SetTexture(texturePath..db.general.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
+				button.mask:SetRotation(db.border.rotate * 3.14)
 			end
 			if button.border then
 				button.border:SetTexture(path)
 				button.border:SetVertexColor(db.border.color.r, db.border.color.g, db.border.color.b, 1)
+				button.border:SetRotation(db.border.rotate * 3.14)
 			end
 			if button.shadow then
 				-- button.shadow:SetTexture(texturePath..db.general.shape..'\\shadow.tga')
 				button.shadow:SetTexture(texturePath..'square\\shadow.tga')
 				button.shadow:SetVertexColor(db.shadow.color.r, db.shadow.color.g, db.shadow.color.b, 1)
 				button.shadow:SetShown(db.shadow.enable and db.general.shape == 'square' and db.border.style ~= 'border100')
+				button.shadow:SetRotation(db.border.rotate * 3.14)
 			end
 			if cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
+			end
+			if button.chargeCooldown and button.chargeCooldown:GetDrawSwipe() then
+				button.chargeCooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
 			end
 			if button.procFrame then
 				button.procFrame:SetSize(button:GetSize())
@@ -450,6 +456,15 @@ function ABM:UpdatePet(event, unit)
 	end
 end
 
+function ABM:LAB_OnChargeCreated(parent, cooldown)
+	if parent.mask then
+		cooldown:AddMaskTexture(parent.mask)
+		if cooldown:GetDrawSwipe() then
+			cooldown:SetSwipeTexture(texturePath..E.db.abm.global.general.shape..'\\mask.tga')
+		end
+	end
+end
+
 function ABM:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions)
 	if not AB.Initialized or not E.db.abm.global.enable then return end
@@ -475,6 +490,7 @@ function ABM:Initialize()
 	hooksecurefunc(LCG, 'ShowOverlayGlow', function(button) ControlProc(button, true) end)
 	hooksecurefunc(LCG, 'HideOverlayGlow', function(button) ControlProc(button, false) end)
 	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
+	hooksecurefunc(AB, 'LAB_ChargeCreated', ABM.LAB_OnChargeCreated)
 
 	ABM:UpdateOptions()
 

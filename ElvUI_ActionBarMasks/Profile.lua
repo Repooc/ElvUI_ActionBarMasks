@@ -5,6 +5,7 @@ local defaults = {
 	border = {
 		color = { r = 1, g = 1, b = 1, a = 1 },
 		style = 'border98',
+		rotate = 0,
 	},
 	general = {
 		shape = 'hexagon', -- Valid Values: circle, hexagon, pentagon
