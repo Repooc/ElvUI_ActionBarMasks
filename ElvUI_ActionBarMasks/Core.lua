@@ -2,6 +2,8 @@ local E = unpack(ElvUI)
 local EP = LibStub('LibElvUIPlugin-1.0')
 local LCG = E.Libs.CustomGlow
 local AB = E.ActionBars
+local LAB = E.Libs.LAB
+
 local AddOnName, Engine = ...
 
 local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
@@ -10,6 +12,7 @@ _G[AddOnName] = Engine
 ABM.Title = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Title')
 ABM.Version = GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
 ABM.Configs = {}
+_G.ABMDB = {}
 
 local STANCE_SLOTS = _G.NUM_STANCE_SLOTS or 10
 local ACTION_SLOTS = _G.NUM_PET_ACTION_SLOTS or 10
@@ -132,7 +135,7 @@ function ABM:UpdateOptions()
 			if cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
 			end
-			if button.chargeCooldown and button.chargeCooldown:GetDrawSwipe() then
+			if button.chargeCooldown then
 				button.chargeCooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
 			end
 			if button.procFrame then
@@ -458,10 +461,7 @@ end
 
 function ABM:LAB_OnChargeCreated(parent, cooldown)
 	if parent.mask then
-		cooldown:AddMaskTexture(parent.mask)
-		if cooldown:GetDrawSwipe() then
-			cooldown:SetSwipeTexture(texturePath..E.db.abm.global.general.shape..'\\mask.tga')
-		end
+		cooldown:SetSwipeTexture(texturePath..E.db.abm.global.general.shape..'\\mask.tga')
 	end
 end
 
@@ -490,13 +490,10 @@ function ABM:Initialize()
 	hooksecurefunc(LCG, 'ShowOverlayGlow', function(button) ControlProc(button, true) end)
 	hooksecurefunc(LCG, 'HideOverlayGlow', function(button) ControlProc(button, false) end)
 	hooksecurefunc(AB, 'UpdatePet', ABM.UpdatePet)
-	hooksecurefunc(AB, 'LAB_ChargeCreated', ABM.LAB_OnChargeCreated)
+
+	LAB.RegisterCallback(ABM, 'OnChargeCreated', ABM.LAB_OnChargeCreated)
 
 	ABM:UpdateOptions()
-
-	if not ABMDB then
-		_G.ABMDB = {}
-	end
 end
 
 E.Libs.EP:HookInitialize(ABM, ABM.Initialize)
