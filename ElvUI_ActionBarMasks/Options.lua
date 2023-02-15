@@ -9,6 +9,7 @@ local DONATORS = {
 }
 
 local DEVELOPERS = {
+	'|cff0070DEAzilroka|r',
 	'|cff82B4ffEltreum|r',
 }
 
