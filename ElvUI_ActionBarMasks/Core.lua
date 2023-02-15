@@ -91,10 +91,11 @@ end
 function ABM:GetValidBorder()
 	local db = E.db.abm.global
 	local maskDB = ABM:GetMaskDB()
-	local border = maskDB[db.general.shape].borders[db.border.style] and db.border.style or 'border100'
-	local path = texturePath..db.general.shape..'\\'..border
+	local shape = maskDB[db.general.shape] and db.general.shape or 'circle'
+	local border = maskDB[shape].borders[db.border.style] and db.border.style or 'border100'
+	local path = texturePath..shape..'\\'..border
 
-	return path, border
+	return path, border, shape
 end
 
 function ABM:Print(...)
@@ -108,7 +109,7 @@ local function GetOptions()
 end
 
 function ABM:UpdateOptions()
-	local path = ABM:GetValidBorder()
+	local path, border, shape = ABM:GetValidBorder()
 	local db = E.db.abm.global
 	local cooldown
 
@@ -117,7 +118,7 @@ function ABM:UpdateOptions()
 			cooldown = _G[button:GetName()..'Cooldown']
 
 			if button.mask then
-				button.mask:SetTexture(texturePath..db.general.shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
+				button.mask:SetTexture(texturePath..shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 				button.mask:SetRotation(db.border.rotate)
 			end
 			if button.border then
@@ -129,25 +130,25 @@ function ABM:UpdateOptions()
 				-- button.shadow:SetTexture(texturePath..db.general.shape..'\\shadow.tga')
 				button.shadow:SetTexture(texturePath..'square\\shadow.tga')
 				button.shadow:SetVertexColor(db.shadow.color.r, db.shadow.color.g, db.shadow.color.b, 1)
-				button.shadow:SetShown(db.shadow.enable and db.general.shape == 'square' and db.border.style ~= 'border100')
+				button.shadow:SetShown(db.shadow.enable and shape == 'square' and border ~= 'border100')
 				button.shadow:SetRotation(db.border.rotate)
 			end
 			if cooldown:GetDrawSwipe() then
-				cooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
+				cooldown:SetSwipeTexture(texturePath..shape..'\\mask.tga')
 			end
 			if button.chargeCooldown then
-				button.chargeCooldown:SetSwipeTexture(texturePath..db.general.shape..'\\mask.tga')
+				button.chargeCooldown:SetSwipeTexture(texturePath..shape..'\\mask.tga')
 			end
 			if button.procFrame then
 				button.procFrame:SetSize(button:GetSize())
 
 				button.procFrame.procRing:SetSize(button:GetSize())
-				button.procFrame.procRing:SetTexture(texturePath..db.general.shape..'\\procRingWhite')
+				button.procFrame.procRing:SetTexture(texturePath..shape..'\\procRingWhite')
 				button.procFrame.procRing:SetVertexColor(db.proc.color.r, db.proc.color.g, db.proc.color.b, 1)
 
 				if button.procFrame.procMask then
 					if db.proc.style == 'solid' then
-						button.procFrame.procMask:SetTexture(texturePath..db.general.shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
+						button.procFrame.procMask:SetTexture(texturePath..shape..'\\mask', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 					else
 						button.procFrame.procMask:SetTexture(texturePath..'repooctest.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
 					end
@@ -173,7 +174,7 @@ function ABM:UpdateOptions()
 						button.procFrame.spinner:Stop()
 					end
 				end
-				if db.general.shape == 'square' then
+				if shape == 'square' then
 					button.procFrame:Hide()
 					button.procFrame.spinner:Stop()
 					button.procFrame.pulse:Stop()
@@ -184,10 +185,10 @@ function ABM:UpdateOptions()
 				end
 			end
 			if button:GetParent() == _G.ElvUI_BarPet and _G[button:GetName()..'Shine'] then
-				_G[button:GetName()..'Shine']:SetAlpha(db.general.shape == 'square' and 1 or 0)
+				_G[button:GetName()..'Shine']:SetAlpha(shape == 'square' and 1 or 0)
 			end
 
-			if db.general.shape ~= 'square' then
+			if shape ~= 'square' then
 				if button._PixelGlow then button._PixelGlow:Hide() end
 				if button._ButtonGlow then button._ButtonGlow:Hide() end
 				if button._AutoCastGlow then button._AutoCastGlow:Hide() end
