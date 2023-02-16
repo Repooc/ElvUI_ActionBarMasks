@@ -115,7 +115,7 @@ function ABM:UpdateOptions()
 
 	for button in pairs(AB.handledbuttons) do
 		if button then
-			cooldown = _G[button:GetName()..'Cooldown']
+			cooldown = button.cooldown or _G[button:GetName()..'Cooldown']
 
 			if button.mask then
 				button.mask:SetTexture(texturePath..shape..'\\mask.tga', 'CLAMPTOBLACKADDITIVE', 'CLAMPTOBLACKADDITIVE')
@@ -133,7 +133,7 @@ function ABM:UpdateOptions()
 				button.shadow:SetShown(db.shadow.enable and shape == 'square' and border ~= 'border100')
 				button.shadow:SetRotation(db.border.rotate)
 			end
-			if cooldown:GetDrawSwipe() then
+			if cooldown and cooldown:GetDrawSwipe() then
 				cooldown:SetSwipeTexture(texturePath..shape..'\\mask.tga')
 			end
 			if button.chargeCooldown then
@@ -472,6 +472,20 @@ function ABM:LAB_OnChargeCreated(parent, cooldown)
 	end
 end
 
+function ABM:MultiCastFlyoutFrame_ToggleFlyout(_, frame)
+	local needsRefresh
+	for _, button in ipairs(frame.buttons) do
+		if not button.mask then
+			SetupMask(button)
+			needsRefresh = true
+		end
+	end
+
+	if needsRefresh then
+		ABM:UpdateOptions()
+	end
+end
+
 function ABM:Initialize()
 	EP:RegisterPlugin(AddOnName, GetOptions)
 	if not AB.Initialized or not E.db.abm.global.enable then return end
@@ -506,6 +520,10 @@ function ABM:Initialize()
 
 	ABM:SecureHook(AB, 'SetupFlyoutButton')
 	ABM:SecureHook(AB, 'UpdatePet')
+
+	if E.Wrath then
+		ABM:SecureHook(AB, 'MultiCastFlyoutFrame_ToggleFlyout')
+	end
 end
 
 E.Libs.EP:HookInitialize(ABM, ABM.Initialize)
