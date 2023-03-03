@@ -6,6 +6,10 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.23 3/3/2023',
+		'• fix cooldown error',
+		'• mask the flyout buttons in wrath',
+	' ',
 	'v1.22 2/15/2023',
 		'• fix square charge swipe issue',
 		'• mask the flyout buttons now',
