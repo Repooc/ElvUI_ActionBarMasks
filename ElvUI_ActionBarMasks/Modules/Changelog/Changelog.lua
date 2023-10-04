@@ -6,6 +6,9 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.24 10/4/2023',
+		'• Fix change log popup',
+	' ',
 	'v1.23 3/3/2023',
 		'• fix cooldown error',
 		'• mask the flyout buttons in wrath',
@@ -160,11 +163,7 @@ function module:CreateChangelog()
 	frame:SetMovable(true)
 	frame:EnableMouse(true)
 	frame:SetResizable(true)
-	if not E.Classic then
-		frame:SetResizeBounds(350, 100)
-	else
-		frame:SetMinResize(350, 100)
-	end
+	frame:SetResizeBounds(350, 100)
 	frame:SetScript('OnMouseDown', function(changelog, button)
 		if button == 'LeftButton' and not changelog.isMoving then
 			changelog:StartMoving()
@@ -257,6 +256,7 @@ function module:ToggleChangeLog()
 	fadeInfo.timeToFade = 0.5
 	fadeInfo.startAlpha = 0
 	fadeInfo.endAlpha = 1
+	ABMChangelog:Show()
 	E:UIFrameFade(ABMChangelog, fadeInfo)
 
 	module.time = 6
