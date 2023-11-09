@@ -9,8 +9,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-    - name: Run Discord Webhook
-      uses: Mist3r-Robot/classic-discord-webhook@main
+    - name: Discord Commits
+      uses: Sniddl/discord-commits@v1.6
       with:
-        id: ${{ secrets.PLUGIN_COMMITS_WEBHOOK_ID }}
-        token: ${{ secrets.PLUGIN_COMMITS_WEBHOOK_TOKEN }}
+        webhook: ${{ secrets.PLUGIN_COMMITS_WEBHOOK }}
+        template: 'avatar-with-link'
+        include-extras: true
