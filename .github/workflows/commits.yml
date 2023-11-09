@@ -19,5 +19,5 @@ jobs:
       uses: Sniddl/discord-commits@v1.6
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
-        # message: ""
-        embed: '{ "title": "**{{ github.context.payload.repository.owner.name }}/{{ github.context.payload.repository.name}}**", "description": "[{{ commit.title }}]({{ commit.url }}) {{ commit.description }}", "url": "{{ github.context.payload.repository.html_url }}", "author": { "name": "{{ commit.author.username }}", "icon_url": "https://github.com/{{ commit.author.username }}.png"} }'
+        message: "\u200B"
+        embed: '{ "title": "**{{ github.context.payload.repository.owner.name }}/{{ github.context.payload.repository.name}}**", "description": "[{{ commit.title }}]({{ commit.url }})\n{{ commit.description }}\n\nDiff: {{ github.context.payload.compare }}", "url": "{{ github.context.payload.repository.html_url }}", "author": { "name": "{{ commit.author.username }}", "icon_url": "https://github.com/{{ commit.author.username }}.png"} }'
