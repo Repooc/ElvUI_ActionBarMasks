@@ -15,7 +15,7 @@ jobs:
       CF_URL: https://www.curseforge.com/wow/addons/actionbar-masks-elvui-plugin
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
       WAGO_URL: https://addons.wago.io/addons/elvui-actionbarmasks
-      RR_CHANNEL_ID: 1162287881382002708
+      RR_CHANNEL_ID: "1162287881382002708"
     steps:
       - name: Clone Project
         uses: actions/checkout@v3
@@ -46,7 +46,7 @@ jobs:
           bot-token: ${{ secrets.ANNOUNCER_BOT_TOKEN }}
           channel: ${{ secrets.DISCORD_NEWS_CHANNEL_ID }}
           content: |
-            **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!
+            **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!*
 
             If you would like to support me in the work I do, consider supporting me through the [Discord Shop](https://discord.com/servers/repooc-reforged-1162274244487561216)!
 
