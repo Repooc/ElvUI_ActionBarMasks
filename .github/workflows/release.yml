@@ -15,6 +15,7 @@ jobs:
       CF_URL: https://www.curseforge.com/wow/addons/actionbar-masks-elvui-plugin
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
       WAGO_URL: https://addons.wago.io/addons/elvui-actionbarmasks
+      RR_CHANNEL_ID: 1162287881382002708
     steps:
       - name: Clone Project
         uses: actions/checkout@v3
@@ -34,6 +35,24 @@ jobs:
           description: '[${{ github.event.sender.login }}](${{ github.event.sender.html_url }}) has released a new version of ${{ github.event.repository.name }}!
 
             If you use a wow addon client that can download from either wago addons or curse, then it is recommended that you use that to install/update the addon.  You can update how you see fit, even if you want to download manually and install it, go for it.  The can grab the addon from the links down below.'
-          fields: '[{"name": "Released By:", "value": "[${{ github.event.sender.login }}](${{ github.event.sender.html_url }})", "inline": true}, {"name": "Issue Tracker:", "value": "[${{ github.event.repository.name }}](${{ github.event.repository.html_url }}/issues)", "inline": true}, {"name": "Version", "value": "${{ env.RELEASE_VERSION }}", "inline": true}, {"name": "Wago Addons", "value": "[Click Here](${{ env.WAGO_URL }})", "inline": true}, {"name": "Curseforge", "value": "[Click Here](${{ env.CF_URL }})", "inline": true}]'
+          fields: '[{"name": "Released By:", "value": "[${{ github.event.sender.login }}](${{ github.event.sender.html_url }})", "inline": true}, {"name": "Issue Tracker:", "value": "[${{ github.event.repository.name }}](${{ github.event.repository.html_url }}/issues)", "inline": true}, {"name": "Version", "value": "${{ env.RELEASE_VERSION }}", "inline": true}, {"name": "Wago Addons", "value": "[Click Here](${{ env.WAGO_URL }})", "inline": true}, {"name": "Curseforge", "value": "[Click Here](${{ env.CF_URL }})", "inline": true}, {"name": "Changelog", "value": "[Click Here](${{ github.event.repository.html_url }}/CHANGELOG.txt)", "inline": true}]'
           footer: Addons by Repooc
           timestamp: true
+      - name: Publish Announcement
+        id: publish-to-discord
+        uses: Crec0/announce-n-crosspost@v1
+        if: success()
+        with:
+          bot-token: ${{ secrets.ANNOUNCER_BOT_TOKEN }}
+          channel: ${{ secrets.DISCORD_NEWS_CHANNEL_ID }}
+          content: |
+            **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!
+
+            If you would like to support me in the work I do, consider supporting me through the [Discord Shop](https://discord.com/servers/repooc-reforged-1162274244487561216)!
+
+            Feel freen to browse the <#1171940634672767128> for others ways to support Repooc!
+
+            You can get the update through Wago or Curse! Links for the addon can be found in <#${{env.RR_CHANNEL_ID}}> channel.
+      - name: Print message id
+        run: echo "Message id = ${{ steps.publish-to-discord.outputs.message-id }}"
+
