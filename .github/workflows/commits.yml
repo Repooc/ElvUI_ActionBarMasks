@@ -1,0 +1,16 @@
+name: Push Commits to Discord Webhook
+on:
+  push:
+    paths-ignore:
+      - '.github/**'
+jobs:
+  Discord_Notification:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Run Discord Webhook
+      uses: Mist3r-Robot/classic-discord-webhook@main
+      with:
+        id: ${{ secrets.PLUGIN_COMMITS_WEBHOOK_ID }}
+        token: ${{ secrets.PLUGIN_COMMITS_WEBHOOK_TOKEN }}
