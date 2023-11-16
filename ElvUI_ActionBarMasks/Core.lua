@@ -357,13 +357,8 @@ local function SetupMask(button)
 		button.procFrame.scaleOut:SetDuration(0.7)
 		button.procFrame.scaleOut:SetStartDelay(0)
 		button.procFrame.scaleOut:SetSmoothing('OUT')
-		if not E.Classic then
-			button.procFrame.scaleOut:SetScaleFrom(0.98, 0.98)
-			button.procFrame.scaleOut:SetScaleTo(1.05, 1.05)
-		else
-			button.procFrame.scaleOut:SetFromScale(0.98, 0.98)
-			button.procFrame.scaleOut:SetToScale(1.05, 1.05)
-		end
+		button.procFrame.scaleOut:SetScaleFrom(0.98, 0.98)
+		button.procFrame.scaleOut:SetScaleTo(1.05, 1.05)
 	end
 
 	button.rabHooked = true
