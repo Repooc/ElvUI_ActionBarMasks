@@ -4,3 +4,4 @@ manual-changelog:
     markup-type: bbcode
 move-folders:
     ElvUI_ActionBarMasks/ElvUI_ActionBarMasks: ElvUI_ActionBarMasks
+enable-toc-creation: yes
