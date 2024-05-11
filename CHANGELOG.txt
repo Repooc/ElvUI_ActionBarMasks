@@ -1,3 +1,3 @@
-v1.25 11/9/2023
+v1.26 5/11/2024
 
-• toc update for retail/wrath
+• toc update for all wow versions
