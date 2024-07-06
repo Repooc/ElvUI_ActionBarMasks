@@ -19,7 +19,7 @@ jobs:
       RR_AUTHOR_SUPPORT_INFO_NAME: "general-info"
       RR_AUTHOR_SUPPORT_INFO_URL: "https://discord.com/channels/1162274244487561216/1171940634672767128"
       RR_ADDON_CHANNEL_NAME: "actionbar-masks"
-      RR_ADDON_CHANNEL_URL: "https://discord.com/channels/1162274244487561216/1162287881382002708"
+      RR_ADDON_CHANNEL_URL: "https://discord.com/channels/1162274244487561216/1259294228563890217"
     steps:
       - name: Clone Project
         uses: actions/checkout@v4
