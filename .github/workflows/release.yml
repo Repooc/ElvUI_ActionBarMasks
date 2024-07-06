@@ -29,19 +29,6 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Release Job
         uses: BigWigsMods/packager@master
-      - name: Notify Discord
-        if: success()
-        uses: repooc/djs-actions@my_changes
-        with:
-          id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-          token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-          title: 'New **__${{ github.event.repository.name }}__** *Version Released!*'
-          description: '[${{ github.event.sender.login }}](${{ github.event.sender.html_url }}) has released a new version of ${{ github.event.repository.name }}!
-
-            If you use a wow addon client that can download from either wago addons or curse, then it is recommended that you use that to install/update the addon.  You can update how you see fit, even if you want to download manually and install it, go for it.  The can grab the addon from the links down below.'
-          fields: '[{"name": "Released By:", "value": "[${{ github.event.sender.login }}](${{ github.event.sender.html_url }})", "inline": true}, {"name": "Issue Tracker:", "value": "[${{ github.event.repository.name }}](${{ github.event.repository.html_url }}/issues)", "inline": true}, {"name": "Version", "value": "${{ env.RELEASE_VERSION }}", "inline": true}, {"name": "Wago Addons", "value": "[Click Here](${{ env.WAGO_URL }})", "inline": true}, {"name": "Curseforge", "value": "[Click Here](${{ env.CF_URL }})", "inline": true}, {"name": "Changelog", "value": "[Click Here](${{ github.event.repository.html_url }}/blob/main/CHANGELOG.txt)", "inline": true}]'
-          footer: Repooc Reforged
-          timestamp: true
       - name: Publish
         id: publish-to-discord
         uses: Crec0/announce-n-crosspost@v1
@@ -52,7 +39,7 @@ jobs:
           content: |
             **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!*
 
-            You can view the changes made by viewing the [changelog](<${{ github.event.repository.html_url }}/blob/main/CHANGELOG.txt>) here!
+            You can view the changes made by viewing the [changelog](<${{ github.event.repository.html_url }}/blob/main/CHANGELOG.md>) here!
 
             Go grab the new version from [Wago AddOns](<${{ env.WAGO_URL }}>) or [Curse](<${{ env.CF_URL }}>)!
 

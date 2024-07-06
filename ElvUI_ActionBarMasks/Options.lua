@@ -1,8 +1,9 @@
-local E, L, _, P, _ = unpack(ElvUI)
+local E, L, _, P = unpack(ElvUI)
 local ABM = E:GetModule('ElvUI_ActionBarMasks')
 local ABMCL = E:GetModule('ABM-Changelog')
 local AB = E.ActionBars
 local ACH = E.Libs.ACH
+local RRP = LibStub('RepoocReforged-1.0'):LoadMainCategory()
 
 local DONATORS = {
 	'None to be displayed at this time.',
@@ -58,8 +59,17 @@ local function actionSubGroup(info, ...)
 end
 
 local function configTable()
+	--* Repooc Reforged Plugin section
+	local rrp = E.Options.args.rrp
+
+	--* Plugin Section
 	local abm = ACH:Group('|cFF16C3F2ActionBar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
-	E.Options.args.abm = abm
+	if not rrp then
+		print("Error Loading Repooc Reforged Plugin Library, make sure to download the addon from Wago AddOns or Curseforge instead of github!")
+		E.Options.args.abm = abm
+	else
+		rrp.args.abm = abm
+	end
 
 	local Global = ACH:Group(L["Global"], nil, 0, nil, nil, nil)
 	abm.args.global = Global

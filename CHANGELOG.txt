@@ -1,3 +1,0 @@
-v1.26 5/11/2024
-
-• toc update for all wow versions

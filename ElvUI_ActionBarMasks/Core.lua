@@ -456,7 +456,8 @@ function ABM:UpdatePet(event, unit)
 end
 
 function ABM:SetupFlyoutButton(_, button)
-	if not button.mask then
+	local parent = button:GetParent()
+	if not button.mask and parent.isActionBar then
 		SetupMask(button)
 	end
 end
