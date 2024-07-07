@@ -1,7 +1,7 @@
 ﻿## Interface: 100207
 ## Interface-Cata: 40400
 ## Interface-Classic: 11502
-## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
+## Title: |cff1784d1ElvUI|r |cff00FF98Actionbar|r |cffA330C9Masks|r
 ## Author: Repooc
 ## Version: 1.28
 ## RequiredDeps: ElvUI

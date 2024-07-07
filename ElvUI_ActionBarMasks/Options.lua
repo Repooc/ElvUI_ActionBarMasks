@@ -63,7 +63,7 @@ local function configTable()
 	local rrp = E.Options.args.rrp
 
 	--* Plugin Section
-	local abm = ACH:Group('|cFF16C3F2ActionBar|r Masks', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
+	local abm = ACH:Group('|cff00FF98ActionBar|r |cffA330C9Masks|r', nil, 6, 'tab', nil, nil, function() return not AB.Initialized end)
 	if not rrp then
 		print("Error Loading Repooc Reforged Plugin Library, make sure to download the addon from Wago AddOns or Curseforge instead of github!")
 		E.Options.args.abm = abm
