@@ -3,7 +3,7 @@
 ## Interface-Classic: 11502
 ## Title: |cff1784d1ElvUI|r |cFF16C3F2Actionbar|r Masks
 ## Author: Repooc
-## Version: 1.27
+## Version: 1.28
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB

@@ -6,7 +6,10 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
-	'v1.26 5/11/2024',
+	'v1.28 7/6/2024',
+		'• fix broken pkgmeta',
+	' ',
+	'v1.27 7/6/2024',
 		'• fix broken flyouts in spellbook',
 	' ',
 	'v1.26 5/11/2024',
