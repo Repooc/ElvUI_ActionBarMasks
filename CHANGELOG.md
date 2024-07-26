@@ -1,4 +1,4 @@
-v1.28 7/6/2024
+v1.29 7/25/2024
 
-• fix broken pkgmeta
+• bump toc
 
