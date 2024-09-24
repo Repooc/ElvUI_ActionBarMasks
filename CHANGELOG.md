@@ -1,5 +1,3 @@
-v1.29 8/13/2024
+v1.30 9/24/2024
 
-• fix old apis
-• bump toc
-
+• bump toc for classic release

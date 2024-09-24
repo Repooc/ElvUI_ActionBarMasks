@@ -6,6 +6,9 @@ local module = E:NewModule('ABM-Changelog', 'AceEvent-3.0', 'AceTimer-3.0')
 local format, gsub, find = string.format, string.gsub, string.find
 
 local ChangelogTBL = {
+	'v1.30 9/24/2024',
+		'• bump toc for classic release',
+	' ',
 	'v1.29 8/13/2024',
 		'• fix old apis',
 		'• bump toc',
