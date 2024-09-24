@@ -84,6 +84,19 @@ local DefaultMasks = {
 	}
 }
 
+function ABM:ParseVersionString()
+	local version = GetAddOnMetadata(AddOnName, 'Version')
+	local prevVersion = GetAddOnMetadata(AddOnName, 'X-PreviousVersion')
+	if strfind(version, 'project%-version') then
+		return prevVersion, prevVersion..'-git', nil, true
+	else
+		local release, extra = strmatch(version, '^v?([%d.]+)(.*)')
+		return tonumber(release), release..extra, extra ~= ''
+	end
+end
+
+ABM.version, ABM.versionString, ABM.versionDev, ABM.versionGit = ABM:ParseVersionString()
+
 function ABM:GetMaskDB()
 	return DefaultMasks
 end
@@ -483,7 +496,7 @@ function ABM:MultiCastFlyoutFrame_ToggleFlyout(_, frame)
 end
 
 function ABM:Initialize()
-	EP:RegisterPlugin(AddOnName, GetOptions)
+	EP:RegisterPlugin(AddOnName, GetOptions, nil, ABM.versionString)
 	if not AB.Initialized or not E.db.abm.global.enable then return end
 	ABM:DBConversions()
 

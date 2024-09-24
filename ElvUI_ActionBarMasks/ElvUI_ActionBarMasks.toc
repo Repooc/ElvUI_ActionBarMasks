@@ -1,9 +1,8 @@
-﻿## Interface: 110002
-## Interface-Cata: 40400
-## Interface-Classic: 11503
+﻿## Interface: 110002, 40400, 11504
 ## Title: |cff1784d1ElvUI|r |cff00FF98Actionbar|r |cffA330C9Masks|r
 ## Author: Repooc
-## Version: 1.29
+## Version: @project-version@
+## X-PreviousVersion: 1.30
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
