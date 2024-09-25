@@ -1,3 +1,3 @@
-v1.30 9/24/2024
+v1.31 9/25/2024
 
-• bump toc for classic release
+• fix a typo

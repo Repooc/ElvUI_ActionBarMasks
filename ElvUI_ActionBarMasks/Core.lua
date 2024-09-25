@@ -10,7 +10,8 @@ local ABM = E:NewModule(AddOnName, 'AceHook-3.0')
 _G[AddOnName] = Engine
 
 ABM.Title = C_AddOns.GetAddOnMetadata('ElvUI_ActionBarMasks', 'Title')
-ABM.Version = C_AddOns.GetAddOnMetadata('ElvUI_ActionBarMasks', 'Version')
+local GetAddOnMetadata = C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+
 ABM.Configs = {}
 _G.ABMDB = {}
 

@@ -68,8 +68,8 @@ end
 
 function ABM:DBConversions()
 	-- release converts, only one call per version
-	if E.db.abm.dbConverted ~= ABM.Version then
-		E.db.abm.dbConverted = ABM.Version
+	if E.db.abm.dbConverted ~= ABM.version then
+		E.db.abm.dbConverted = ABM.version
 
 		DBMigration() -- Version 1.08 -> 1.09
 		DBMigration2() -- Version 1.11 -> 1.12

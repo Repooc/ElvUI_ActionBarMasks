@@ -119,7 +119,6 @@ local function configTable()
 	Help.args.download = Download
 	Download.inline = true
 	Download.args.development = ACH:Execute(L["Development Version"], L["Link to the latest development version."], 1, function() E:StaticPopup_Show('ELVUI_EDITBOX', nil, nil, 'https://github.com/Repooc/ElvUI_ActionBarMasks/archive/refs/heads/main.zip') end, nil, nil, 140)
-	Download.args.changelog = ACH:Execute(L["Changelog"], nil, 3, function() if ABM_Changelog and ABM_Changelog:IsShown() then ABM:Print('ActionBar Masks changelog is already being displayed.') else ABMCL:ToggleChangeLog() end end, nil, nil, 140)
 
 	local Credits = ACH:Group(L["Credits"], nil, 5)
 	Help.args.credits = Credits
