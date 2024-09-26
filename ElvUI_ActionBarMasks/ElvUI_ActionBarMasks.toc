@@ -2,7 +2,7 @@
 ## Title: |cff1784d1ElvUI|r |cff00FF98Actionbar|r |cffA330C9Masks|r
 ## Author: Repooc
 ## Version: @project-version@
-## X-PreviousVersion: 1.31
+## X-PreviousVersion: 1.32
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
