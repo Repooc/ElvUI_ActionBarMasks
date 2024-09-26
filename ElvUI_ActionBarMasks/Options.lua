@@ -1,6 +1,5 @@
 local E, L, _, P = unpack(ElvUI)
 local ABM = E:GetModule('ElvUI_ActionBarMasks')
-local ABMCL = E:GetModule('ABM-Changelog')
 local AB = E.ActionBars
 local ACH = E.Libs.ACH
 local RRP = LibStub('RepoocReforged-1.0'):LoadMainCategory()
