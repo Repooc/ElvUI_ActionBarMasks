@@ -1,8 +1,8 @@
-﻿## Interface: 110005, 40401, 11505
+﻿## Interface: 110007, 40401, 11505
 ## Title: |cff1784d1ElvUI|r |cff00FF98ActionBar|r |cffA330C9Masks|r
 ## Author: Repooc
 ## Version: @project-version@
-## X-PreviousVersion: 1.33
+## X-PreviousVersion: 1.34
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
 ## SavedVariables: ABMDB
