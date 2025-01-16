@@ -1,0 +1,58 @@
+name: Copy Changelog to Website on Tag Push
+
+on:
+#   push:
+#     tags:
+#       - '*' # Trigger on any tag push
+  workflow_dispatch:
+  push:
+    paths:
+      - 'CHANGELOG.md'
+    branches:
+        - "main"
+    tags:
+        - "!**"
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+      - name: Checkout Target Repository
+        uses: actions/checkout@v4
+        with:
+          repository: repooc/repoocreforged-wiki
+          ref: main
+          show-progress: true
+          token: ${{ secrets.UPDATE_CHANGELOGS }}
+          path: ./repoocreforged-wiki
+      - name: Transform Repository Name
+        id: transform
+        run: |
+          repo_name=$(basename $GITHUB_REPOSITORY)
+          dest_name=$(echo $repo_name | sed 's/^ElvUI_//' | tr '[:upper:]' '[:lower:]')
+          echo "repository_name=$repo_name" >> $GITHUB_ENV
+          echo "destination_name=$dest_name" >> $GITHUB_ENV
+      - name: Copy File to Target Repository
+        run: |
+          cp CHANGELOG.md ./repoocreforged-wiki/src/changelogs/${destination_name}.md
+          cd repoocreforged-wiki
+          git status
+      - name: Check for Changes
+        run: |
+          cd repoocreforged-wiki
+          if git diff --quiet; then
+            echo "No changes detected. Exiting workflow."
+            exit 0
+          fi
+      - name: Commit and Push Changes
+        run: |
+          cd repoocreforged-wiki
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Update changelog file for ${repository_name} on tag push: $GITHUB_REF"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.UPDATE_CHANGELOGS }}
