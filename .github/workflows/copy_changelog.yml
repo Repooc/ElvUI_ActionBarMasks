@@ -32,6 +32,7 @@ jobs:
         run: |
           cp CHANGELOG.md ./repoocreforged-wiki/src/changelogs/${destination_name}.md
           cd repoocreforged-wiki
+          git add src/changelogs/${destination_name}.md
           git status
       - name: Check for Changes
         id: check_changes
