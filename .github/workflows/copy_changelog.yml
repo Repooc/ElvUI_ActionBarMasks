@@ -1,17 +1,11 @@
 name: Copy Changelog to Website on Tag Push
 
 on:
-#   push:
-#     tags:
-#       - '*' # Trigger on any tag push
   workflow_dispatch:
   push:
-    paths:
-      - 'CHANGELOG.md'
-    branches:
-        - "main"
     tags:
-        - "!**"
+      - '*'
+
 jobs:
   copy-file:
     runs-on: ubuntu-latest
@@ -40,13 +34,12 @@ jobs:
           cd repoocreforged-wiki
           git status
       - name: Check for Changes
+        id: check_changes
         run: |
           cd repoocreforged-wiki
-          if git diff --quiet; then
-            echo "No changes detected. Exiting workflow."
-            exit 0
-          fi
+          git diff --quiet || echo "Changes detected"
       - name: Commit and Push Changes
+        if: steps.check_changes.outputs.diff == 'Changes detected'
         run: |
           cd repoocreforged-wiki
           git config --global user.name "GitHub Actions"
