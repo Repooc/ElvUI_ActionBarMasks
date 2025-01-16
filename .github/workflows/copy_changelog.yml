@@ -40,16 +40,16 @@ jobs:
           cd repoocreforged-wiki
           if git diff --quiet; then
             echo "No changes detected"
-            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "changes=false" >> $GITHUB_ENV
           else
             echo "Changes detected"
-            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "changes=true" >> $GITHUB_ENV
           fi
       - name: Debug Check Changes Output
         run: |
-          echo "Changes detected: ${{ steps.check_changes.outputs.changes }}"
+          echo "Changes detected: ${{ env.changes }}"
       - name: Commit and Push Changes
-        if: steps.check_changes.outputs.changes == 'true'
+        if: ${{ env.changes == 'true' }}
         run: |
           cd repoocreforged-wiki
           git config --global user.name "GitHub Actions"
