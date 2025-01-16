@@ -1,3 +1,3 @@
-v1.34 1/15/2025
+v1.35 ?/??/2025
 
-• bump toc
+• update Pentagon2 Black (Super Thick) texture (Thnx Elt)
