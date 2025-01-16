@@ -45,6 +45,9 @@ jobs:
             echo "Changes detected"
             echo "changes=true" >> $GITHUB_OUTPUT
           fi
+      - name: Debug Check Changes Output
+        run: |
+          echo "Changes detected: ${{ steps.check_changes.outputs.changes }}"
       - name: Commit and Push Changes
         if: steps.check_changes.outputs.changes == 'true'
         run: |
