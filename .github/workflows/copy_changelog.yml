@@ -32,13 +32,13 @@ jobs:
         run: |
           cp CHANGELOG.md ./repoocreforged-wiki/src/changelogs/${destination_name}.md
           cd repoocreforged-wiki
-          git add src/changelogs/${destination_name}.md
           git status
       - name: Check for Changes
         id: check_changes
         run: |
           cd repoocreforged-wiki
-          if git diff --quiet; then
+          git add src/changelogs/${destination_name}.md
+          if git diff --cached --quiet; then
             echo "No changes detected"
             echo "changes=false" >> $GITHUB_ENV
           else
