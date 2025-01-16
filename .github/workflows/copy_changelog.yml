@@ -23,18 +23,21 @@ jobs:
           path: ./repoocreforged-wiki
       - name: Transform Repository Name
         id: transform
+        if: success()
         run: |
           repo_name=$(basename $GITHUB_REPOSITORY)
           dest_name=$(echo $repo_name | sed 's/^ElvUI_//' | tr '[:upper:]' '[:lower:]')
           echo "repository_name=$repo_name" >> $GITHUB_ENV
           echo "destination_name=$dest_name" >> $GITHUB_ENV
       - name: Copy File to Target Repository
+        if: success()
         run: |
           cp CHANGELOG.md ./repoocreforged-wiki/src/changelogs/${destination_name}.md
           cd repoocreforged-wiki
           git status
       - name: Check for Changes
         id: check_changes
+        if: success()
         run: |
           cd repoocreforged-wiki
           git add src/changelogs/${destination_name}.md
@@ -46,6 +49,7 @@ jobs:
             echo "changes=true" >> $GITHUB_ENV
           fi
       - name: Debug Check Changes Output
+        if: success()
         run: |
           echo "Changes detected: ${{ env.changes }}"
       - name: Commit and Push Changes
