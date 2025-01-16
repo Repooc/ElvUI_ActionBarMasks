@@ -61,6 +61,6 @@ jobs:
           git add .
           git commit -m "Update changelog file for ${repository_name} on tag push: $GITHUB_REF"
           git push origin main
-          curl -X POST ${{ secrets.DEPLOY_WEBSITE }}
+
         env:
           GITHUB_TOKEN: ${{ secrets.UPDATE_CHANGELOGS }}
