@@ -31,7 +31,7 @@ local DEVELOPER_STRING = table.concat(DEVELOPERS, '|n')
 local TESTER_STRING = table.concat(TESTERS, '|n')
 
 local function GetBorderValues()
-	local maskDB = ABM:GetMaskDB()
+	local maskDB = ABM:GetMasksTable()
 	local shape = E.db.abm.global.general.shape or 'circle'
 	return maskDB[shape].borders
 end
@@ -77,7 +77,7 @@ local function configTable()
 	local General = ACH:Group(L["General"], nil, 5, nil, function(info) return E.db.abm.global.general[info[#info]] end, function(info, value) E.db.abm.global.general[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.abm.global.enable end)
 	Global.args.general = General
 	General.inline = true
-	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', hexagon = 'Hexagon', pentagon = 'Pentagon', pentagon2 = 'Pentagon 2', square = 'Square', octagon = 'Octagon'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.global.enable end)
+	General.args.shape = ACH:Select(L["Mask Shape"], nil, 2, {circle = 'Circle', diamond = 'Diamond', hexagon = 'Hexagon', pentagon = 'Pentagon', pentagon2 = 'Pentagon 2', square = 'Square', octagon = 'Octagon'}, nil, nil, nil, nil, nil, function() return not AB.Initialized or not E.db.abm.global.enable end)
 
 	local Border = ACH:Group(L["Border & Texture Options"], nil, 5, nil, function(info) return E.db.abm.global.border[info[#info]] end, function(info, value) E.db.abm.global.border[info[#info]] = value ABM:UpdateOptions() end, function() return not AB.Initialized or not E.db.abm.global.enable end)
 	Global.args.border = Border

@@ -40,6 +40,20 @@ local DefaultMasks = {
 			border101 = '|T'..texturePath..'circle\\border101:15:15:0:0:128:128:2:56:2:56|t Black (Super Thick)'
 		},
 	},
+	diamond = {
+		borders = {
+			black3px = 'Black (3px)',
+			black6px = 'Black (6px)',
+			black8px = 'Black (8px)',
+			black9px = 'Black (9px)',
+			black10px = 'Black (10px)',
+			white3px = 'White (3px)',
+			white6px = 'White (6px)',
+			white8px = 'White (8px)',
+			white9px = 'White (9px)',
+			white10px = 'White (10px)',
+		},
+	},
 	hexagon = {
 		borders = {
 			border97 = 'White (Thin)',
@@ -98,15 +112,25 @@ end
 
 ABM.version, ABM.versionString, ABM.versionDev, ABM.versionGit = ABM:ParseVersionString()
 
-function ABM:GetMaskDB()
+function ABM:GetMasksTable()
 	return DefaultMasks
 end
 
 function ABM:GetValidBorder()
 	local db = E.db.abm.global
-	local maskDB = ABM:GetMaskDB()
+	local maskDB = ABM:GetMasksTable()
 	local shape = maskDB[db.general.shape] and db.general.shape or 'circle'
-	local border = maskDB[shape].borders[db.border.style] and db.border.style or 'border100'
+
+	local border = db.border.style
+	if not maskDB[shape].borders[border] then
+		-- Get all border keys for the shape
+		local borderKeys = {}
+		for key in pairs(DefaultMasks[shape].borders) do
+			tinsert(borderKeys, key)
+		end
+		border = borderKeys[random(#borderKeys)]
+	end
+	
 	local path = texturePath..shape..'\\'..border
 
 	return path, border, shape
