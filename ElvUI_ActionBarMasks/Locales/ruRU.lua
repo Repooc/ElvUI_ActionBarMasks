@@ -16,7 +16,6 @@ L["The lower the setting, the faster. This value represents the time it takes to
 L["Wago Page"] = "Страница на Wago"
 
 -- Не переводить, так как эти строки уже есть в локализации ElvUI
--- L["Changelog"]
 -- L["Color"]
 -- L["Credits"]
 -- L["Discord"]

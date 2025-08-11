@@ -16,7 +16,6 @@ L["The lower the setting, the faster.  This value represents the time it takes t
 L["Wago Page"] = true
 
 -- Do not translate as they are in ElvUI Locales already
--- L["Changelog"]
 -- L["Color"]
 -- L["Credits"]
 -- L["Discord"]
