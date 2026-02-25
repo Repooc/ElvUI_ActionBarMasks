@@ -1,3 +1,4 @@
-v1.5 8/10/2025
+v1.5 2/25/2026
 
 • bump toc
+• small tweaks
