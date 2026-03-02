@@ -1,4 +1,4 @@
-v1.5 2/25/2026
+v1.6 3/2/2026
 
 • bump toc
 • small tweaks workflows
